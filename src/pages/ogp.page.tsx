@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
 import React, { FormEventHandler, useState } from 'react'
+import { Pre } from '../types/ogp'
 
 const OgpSample = () => {
   const [url, setUrl] = useState('')
   const router = useRouter()
   const [result, setResult] = useState<string>('')
-  const [json, setJson] = useState({} as any)
+  const [json, setJson] = useState({} as Pre)
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
