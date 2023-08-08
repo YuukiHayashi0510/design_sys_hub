@@ -2,7 +2,7 @@ name: React-CI
 on: push
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
       - name: package-install
         if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
@@ -27,5 +27,3 @@ jobs:
         run: yarn eslint
       - name: prettier-check
         run: yarn fmt:check
-      - name: build
-        run: yarn build
