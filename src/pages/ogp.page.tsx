@@ -1,22 +1,36 @@
+import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { FormEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
+import validator from 'validator'
 import { Pre } from '../types/ogp'
 
 const OgpSample = () => {
   const [url, setUrl] = useState('')
-  const router = useRouter()
   const [result, setResult] = useState<string>('')
   const [json, setJson] = useState({} as Pre)
+  const router = useRouter()
+
+  const onChangeUrl: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setUrl(e.target.value)
+  }
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
-    if (url.length === 0) return
+    if (url.length === 0 || !validator.isURL(url)) {
+      alert('Is Not URL')
+      return
+    }
 
     fetch(`${router.basePath}/api/ogp?url=${url}`)
       .then((res) => res.json())
       .then((json) => {
         setResult(JSON.stringify(json, null, '\t'))
         setJson(json)
+      })
+      .catch((e) => {
+        alert('OGPを取得できませんでした')
+        // eslint-disable-next-line no-console
+        console.error(e)
       })
   }
 
@@ -26,13 +40,13 @@ const OgpSample = () => {
       <form className='flex gap-2 my-10' onSubmit={onSubmit}>
         <input
           className='p-2 rounded'
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={onChangeUrl}
           type='text'
           value={url}
         />
-        <button className='bg-sky-700 p-2 rounded' type='submit'>
+        <Button className='p-2 rounded' type='submit' variant='contained'>
           送信
-        </button>
+        </Button>
       </form>
       {json && (
         <>
