@@ -11,8 +11,9 @@
     "fmt:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "db:generate": "yarn prisma generate",
     "db:migrate": "yarn prisma migrate dev --skip-seed",
-    "db:studio": "yarn prisma studio",
-    "db:migrate:reset": "yarn prisma migrate reset --skip-seed"
+    "db:migrate:status": "yarn prisma migrate status",
+    "db:migrate:reset": "yarn prisma migrate reset --skip-seed",
+    "db:studio": "yarn prisma studio"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
