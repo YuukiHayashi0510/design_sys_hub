@@ -13,7 +13,8 @@
     "db:migrate": "dotenv -e .env.local -- yarn prisma migrate dev --skip-seed",
     "db:migrate:status": "dotenv -e .env.local -- yarn prisma migrate status",
     "db:migrate:reset": "dotenv -e .env.local -- yarn prisma migrate reset --skip-seed",
-    "db:studio": "dotenv -e .env.local -- yarn prisma studio"
+    "db:studio": "dotenv -e .env.local -- yarn prisma studio",
+    "db:push": "dotenv -e .env.production -- yarn prisma db push"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
