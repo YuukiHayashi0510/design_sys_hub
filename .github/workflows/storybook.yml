@@ -1,8 +1,9 @@
 name: Storybook-deploy
 
 on:
-  pull_request_target:
-    types: [opened, edited]
+  push:
+    branches:
+      - main
 
 env:
   cache-version: v1
