@@ -1,0 +1,36 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ./.node-version
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: cache-node-modules
+        uses: actions/cache@v3
+        id: node_modules_cache_id
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+      - name: package-install
+        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: yarn install
+      - name: makeERD
+        run: yarn erd
+      - id: checkErdDiff
+        run: echo "changed=$(git diff --name-only prisma/ERD.md)" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.checkErdDiff.outputs.changed}}
+      - if: ${{ steps.checkErdDiff.outputs.changed != '' }}
+        run: |
+          echo "ERD.md has changed.Please update ERD.md and commit it."
+          exit 1
