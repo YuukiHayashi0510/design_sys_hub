@@ -2,9 +2,10 @@ import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import validator from 'validator'
+import { CustomNextPage } from '~/types/next-page'
 import { Pre } from '../types/ogp'
 
-const OgpSample = () => {
+const OgpSample: CustomNextPage = () => {
   const [url, setUrl] = useState('')
   const [result, setResult] = useState<string>('')
   const [json, setJson] = useState({} as Pre)
@@ -62,3 +63,4 @@ const OgpSample = () => {
 }
 
 export default OgpSample
+OgpSample.requireAuth = true
