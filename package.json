@@ -1,5 +1,5 @@
 {
-  "name": "ts-next.mui-tailwind-template",
+  "name": "design-sys-hub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,9 @@
     "db:migrate:status": "dotenv -e .env.local -- yarn prisma migrate status",
     "db:migrate:reset": "dotenv -e .env.local -- yarn prisma migrate reset --skip-seed",
     "db:studio": "dotenv -e .env.local -- yarn prisma studio",
-    "db:push": "dotenv -e .env.production -- yarn prisma db push"
+    "db:push": "dotenv -e .env.production -- yarn prisma db push",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -34,6 +36,14 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.2.2",
+    "@storybook/addon-interactions": "^7.2.2",
+    "@storybook/addon-links": "^7.2.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.2.2",
+    "@storybook/nextjs": "^7.2.2",
+    "@storybook/react": "^7.2.2",
+    "@storybook/testing-library": "^0.2.0",
     "@types/jsdom": "^21.1.1",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
@@ -45,11 +55,13 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-unused-imports": "^3.0.0",
     "postcss": "^8.4.21",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.1.1",
+    "storybook": "^7.2.2",
     "tailwindcss": "^3.2.7",
     "typescript": "5.1.6"
   }
