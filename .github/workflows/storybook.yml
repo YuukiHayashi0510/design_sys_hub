@@ -33,7 +33,8 @@ jobs:
       - name: build storybook
         run: yarn build-storybook
       - name: deploy storybook
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
+          branch: main
+          folder: ./docs
+
