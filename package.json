@@ -16,7 +16,7 @@
     "db:studio": "dotenv -e .env.local -- yarn prisma studio",
     "db:push": "dotenv -e .env.production -- yarn prisma db push",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build -o ./public/storybook"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
