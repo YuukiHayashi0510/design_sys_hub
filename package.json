@@ -10,10 +10,10 @@
     "fmt": "prettier --write \"src/**/*.{ts,tsx}\"",
     "fmt:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "db:generate": "yarn prisma generate",
-    "db:migrate": "yarn prisma migrate dev --skip-seed",
-    "db:migrate:status": "yarn prisma migrate status",
-    "db:migrate:reset": "yarn prisma migrate reset --skip-seed",
-    "db:studio": "yarn prisma studio"
+    "db:migrate": "dotenv -e .env.local -- yarn prisma migrate dev --skip-seed",
+    "db:migrate:status": "dotenv -e .env.local -- yarn prisma migrate status",
+    "db:migrate:reset": "dotenv -e .env.local -- yarn prisma migrate reset --skip-seed",
+    "db:studio": "dotenv -e .env.local -- yarn prisma studio"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -28,6 +28,8 @@
     "next-auth": "^4.22.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-google-button": "^0.7.2",
+    "tailwind-merge": "^1.14.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {
@@ -38,6 +40,7 @@
     "@types/validator": "^13.11.1",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "autoprefixer": "^10.4.14",
+    "dotenv-cli": "^7.2.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "eslint-config-prettier": "^8.8.0",
