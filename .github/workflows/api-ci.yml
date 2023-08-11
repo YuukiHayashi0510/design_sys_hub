@@ -37,7 +37,7 @@ jobs:
         run: yarn storage:init
       - name: Migrate
         id: prisma_migrate
-        run: yarn db:migrate
+        run: yarn prisma migrate dev
       - name: Test
         id: test
         run: yarn test:ci
