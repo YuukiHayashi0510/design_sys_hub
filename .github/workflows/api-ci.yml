@@ -6,8 +6,8 @@ env:
   POSTGRES_PASSWORD: design_sh_psql
   POSTGRES_PORT: 5555
   POSTGRES_DB: design_sh_admin
-  POSTGRES_PRISMA_URL: 'postgresql://design_sh_admin:design_sh_psql@localhost:5555/design_sh_admin?schema=public'
-  POSTGRES_URL_NON_POOLING: 'postgresql://design_sh_admin:design_sh_psql@localhost:5555/design_sh_admin?schema=public'
+  POSTGRES_PRISMA_URL: 'postgresql://design_sh_admin:design_sh_psql@127.0.0.1:5555/design_sh_admin?schema=public'
+  POSTGRES_URL_NON_POOLING: 'postgresql://design_sh_admin:design_sh_psql@127.0.0.1:5555/design_sh_admin?schema=public'
   NODE_ENV: 'test'
 
 jobs:
