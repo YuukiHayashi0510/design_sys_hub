@@ -39,7 +39,7 @@ jobs:
         run: yarn prisma generate
       - name: Migrate
         id: prisma_migrate
-        run: yarn prisma migrate dev --skip-seed
+        run: yarn prisma migrate reset --skip-seed
       - name: Test
         id: test
         run: yarn test:ci
