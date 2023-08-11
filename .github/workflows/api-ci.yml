@@ -1,0 +1,46 @@
+name: API CI
+on: push
+
+env:
+  POSTGRES_USER: design_sh_admin
+  POSTGRES_PASSWORD: design_sh_psql
+  POSTGRES_PORT: 5555
+  POSTGRES_DB: design_sh_admin
+  POSTGRES_PRISMA_URL: "postgresql://design_sh_admin:design_sh_psql@localhost:5555/design_sh_admin?schema=public"
+  POSTGRES_URL_NON_POOLING: "postgresql://design_sh_admin:design_sh_psql@localhost:5555/design_sh_admin?schema=public"
+
+
+jobs:
+  build_and_test:
+    name: Test before merging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ./.node-version
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+      - name: cache-node-modules
+        uses: actions/cache@v3
+        id: node_modules_cache_id
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+      - name: package-install
+        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: yarn install
+      - name: Storage init
+        id: storage_init
+        run: yarn storage:init
+      - name: Migrate
+        id: prisma_migrate
+        run: yarn db:migrate
+      - name: Test
+        id: test
+        run: yarn test:ci
+      - name: Yarn tsc
+        id: yarn_tsc
+        run: yarn tsc
