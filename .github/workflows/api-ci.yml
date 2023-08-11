@@ -35,6 +35,8 @@ jobs:
       - name: Storage init
         id: storage_init
         run: yarn storage:init
+      - name: docker ps
+        run: docker ps
       - name: Migrate
         id: prisma_migrate
         run: yarn prisma migrate dev
