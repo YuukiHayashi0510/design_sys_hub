@@ -1,5 +1,5 @@
 import prisma from '~/lib/prisma'
-import { CreatePostData, UpdatePostData } from '~/types/post'
+import { CreatePostData, PostWithUser, UpdatePostData } from '~/types/post'
 
 // Create
 export async function createPost(data: CreatePostData) {
@@ -11,7 +11,7 @@ export async function findPostAll() {
   return await prisma.post.findMany()
 }
 
-export async function findPostById(id: string) {
+export async function findPostById(id: string): Promise<PostWithUser | null> {
   return await prisma.post.findUnique({
     where: {
       id,
