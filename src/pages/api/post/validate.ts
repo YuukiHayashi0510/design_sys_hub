@@ -5,7 +5,8 @@ export const isCreatePostData = (value: object): value is CreatePostData => {
     'name' in value &&
     'description' in value &&
     'image' in value &&
-    'url' in value
+    'url' in value &&
+    'userId' in value
   )
 }
 
