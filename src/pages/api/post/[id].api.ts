@@ -2,14 +2,13 @@ import { Post } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
-import { getServerSession } from 'next-auth'
 import { prismaErrorHandler } from '~/lib/prisma'
-import { PostWithUser } from '~/types/post'
+import { PostWithUser, UpdatePostData } from '~/types/post'
 import { deletePost, findPostById, updatePost } from './service'
 import { isUpdatePostData } from './validate'
 
 // Read(GET), Update(PUT), Delete(DELETE)
-export default async function handle(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -42,13 +41,6 @@ const readById = async (
     })
 
   try {
-    const session = await getServerSession()
-    if (!session || !session.user)
-      return res.status(HttpStatusCode.Unauthorized).json({
-        statusCode: HttpStatusCode.Unauthorized,
-        message: 'Unauthorized.',
-      })
-
     const post = await findPostById(id)
     if (post) return res.status(HttpStatusCode.Ok).json(post)
 
@@ -65,7 +57,13 @@ const updateById = async (
   req: NextApiRequest,
   res: NextApiResponse<Post | ApiError>,
 ) => {
-  const data = req.body
+  const { id } = req.query
+  const body = req.body
+  const data: UpdatePostData = {
+    id,
+    ...body,
+  }
+
   if (!isUpdatePostData(data))
     return res.status(HttpStatusCode.BadRequest).json({
       statusCode: HttpStatusCode.BadRequest,
@@ -73,13 +71,6 @@ const updateById = async (
     })
 
   try {
-    const session = await getServerSession()
-    if (!session || !session.user)
-      return res.status(HttpStatusCode.Unauthorized).json({
-        statusCode: HttpStatusCode.Unauthorized,
-        message: 'Unauthorized.',
-      })
-
     const post = await updatePost(data)
     return res.status(HttpStatusCode.Ok).json(post)
   } catch (err) {
@@ -99,16 +90,13 @@ const deleteById = async (
     })
 
   try {
-    const session = await getServerSession()
-    if (!session || !session.user)
-      return res.status(HttpStatusCode.Unauthorized).json({
-        statusCode: HttpStatusCode.Unauthorized,
-        message: 'Unauthorized.',
-      })
-
     const post = await deletePost(id)
     return res.status(HttpStatusCode.Ok).json(post)
   } catch (err) {
     prismaErrorHandler(err)
   }
 }
+
+// api.spec.tsでのimport衝突回避用
+// handlerはexport defaultでなければならない
+export { handler as idHandler }

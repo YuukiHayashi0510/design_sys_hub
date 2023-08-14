@@ -2,13 +2,12 @@ import { Post } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
-import { getServerSession } from 'next-auth'
 import { prismaErrorHandler } from '~/lib/prisma'
 import { createPost, findPostAll } from './service'
 import { isCreatePostData } from './validate'
 
 // Index(GET), Create(POST)
-export default async function handle(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -47,14 +46,6 @@ const createOne = async (
     })
 
   try {
-    const session = await getServerSession()
-    if (!session || !session.user)
-      return res.status(HttpStatusCode.Unauthorized).json({
-        statusCode: HttpStatusCode.Unauthorized,
-        message: 'Unauthorized.',
-      })
-
-    data.userId = session.user.id
     const post = await createPost(data)
     return res.status(HttpStatusCode.Created).json(post)
   } catch (err) {

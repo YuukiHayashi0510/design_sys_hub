@@ -28,8 +28,9 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize() {
-        if (process.env.NODE_ENV === 'production') return null
-        return { id: '1', name: 'John Doe', email: 'john.doe@test.com' }
+        return process.env.NODE_ENV === 'production'
+          ? null
+          : { id: '1', name: 'John Doe', email: 'john.doe@test.com' }
       },
     }),
   ],

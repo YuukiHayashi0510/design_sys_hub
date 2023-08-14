@@ -38,7 +38,7 @@ describe('Post Service Test', () => {
   })
 
   afterAll(async () => {
-    prisma.$disconnect()
+    await prisma.$disconnect()
   })
 
   describe('Create', () => {

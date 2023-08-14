@@ -23,8 +23,8 @@ describe('Post Validation Test', () => {
         url: '',
       }
 
-      const isFailure = isCreatePostData(data)
-      expect(isFailure).toBe(false)
+      const isSuccess = isCreatePostData(data)
+      expect(isSuccess).toBe(false)
     })
   })
   describe('UpdatePostData', () => {
@@ -48,8 +48,8 @@ describe('Post Validation Test', () => {
         url: '',
       }
 
-      const isFailure = isUpdatePostData(data)
-      expect(isFailure).toBe(false)
+      const isSuccess = isUpdatePostData(data)
+      expect(isSuccess).toBe(false)
     })
   })
 })
