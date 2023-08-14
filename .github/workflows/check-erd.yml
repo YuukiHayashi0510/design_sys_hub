@@ -1,11 +1,14 @@
-name: ER Diagrame
+name: ER Diagram
 
 on:
   pull_request:
+    paths:
+      - '.github/workflows/check-erd.yml'
+      - 'prisma/**'
 
 jobs:
   check:
-    name: ER Diagram Check
+    name: Check ERD Diff
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
