@@ -45,7 +45,7 @@ export async function cleanUpDatabase(): Promise<number> {
 }
 
 /* Error Handling */
-export function prismaErrorHandler(err: unknown): ApiError | undefined {
+export function prismaErrorHandler(err: unknown): ApiError {
   if (err instanceof Prisma.PrismaClientKnownRequestError)
     return {
       statusCode: HttpStatusCode.BadRequest,

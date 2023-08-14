@@ -7,8 +7,8 @@ const SignIn = ({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
-    <div className='flex flex-col items-center gap-3 justify-center my-10'>
-      <h2 className='text-2xl mb-4'>ログイン</h2>
+    <div className='my-10 flex flex-col items-center justify-center gap-3'>
+      <h2 className='mb-4 text-2xl'>ログイン</h2>
       {providers &&
         Object.values(providers).map((provider) => {
           const onClick = () => signIn(provider.id)
@@ -17,6 +17,18 @@ const SignIn = ({
               {provider.name === 'GitHub' && <GithubButton onClick={onClick} />}
               {provider.name === 'Google' && (
                 <StyledGoogleButton onClick={onClick} />
+              )}
+              {process.env.NODE_ENV !== 'production' && (
+                <>
+                  {provider.name === 'Test' && (
+                    <button
+                      className='my-4 inline-flex w-60 cursor-pointer items-center justify-center px-5 py-2.5 text-center text-sm font-medium'
+                      onClick={onClick}
+                    >
+                      Test環境ログイン
+                    </button>
+                  )}
+                </>
               )}
             </div>
           )

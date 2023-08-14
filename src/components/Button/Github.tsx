@@ -9,7 +9,7 @@ export type GithubButtonProps = ComponentPropsWithoutRef<'button'>
 
 function GithubButton({ className, onClick }: GithubButtonProps) {
   const allClasses = twMerge(
-    'text-white bg-[#24292F] font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center cursor-pointer w-60',
+    'inline-flex w-60 cursor-pointer items-center rounded-sm bg-[#24292F] px-4 py-2.5 text-center text-sm font-medium text-white',
     hoverClass,
     focusClass,
     darkModeClass,
@@ -20,7 +20,7 @@ function GithubButton({ className, onClick }: GithubButtonProps) {
     <button className={allClasses} onClick={onClick} type='button'>
       <svg
         aria-hidden='true'
-        className='mr-3 -ml-1 w-7 h-7'
+        className='-ml-1 mr-10 h-6 w-6'
         data-icon='github'
         data-prefix='fab'
         focusable='false'
