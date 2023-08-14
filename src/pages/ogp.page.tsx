@@ -38,14 +38,14 @@ const OgpSample: CustomNextPage = () => {
   return (
     <div className='m-10 px-10'>
       <h1 className='text-xl'>OGP情報取得サンプル</h1>
-      <form className='flex gap-2 my-10' onSubmit={onSubmit}>
+      <form className='my-10 flex gap-2' onSubmit={onSubmit}>
         <input
-          className='p-2 rounded'
+          className='rounded p-2'
           onChange={onChangeUrl}
           type='text'
           value={url}
         />
-        <Button className='p-2 rounded' type='submit' variant='contained'>
+        <Button className='rounded p-2' type='submit' variant='contained'>
           送信
         </Button>
       </form>
@@ -53,7 +53,7 @@ const OgpSample: CustomNextPage = () => {
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img alt={json.description} className='p-10' src={json.image} />
-          <div className='border rounded p-2 break-words whitespace-pre-wrap'>
+          <div className='whitespace-pre-wrap break-words rounded border p-2'>
             {result}
           </div>
         </>

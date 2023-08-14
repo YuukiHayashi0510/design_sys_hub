@@ -1,5 +1,7 @@
 {
   "semi": false,
   "singleQuote": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "tailwindFunctions": ["twMerge"],
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
