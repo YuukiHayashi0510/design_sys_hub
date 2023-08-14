@@ -1,30 +1,24 @@
-import axios from 'axios'
+import axios, { HttpStatusCode } from 'axios'
 import { JSDOM } from 'jsdom'
-import { Pre } from '../../types/ogp'
+import { ApiError } from 'next/dist/server/api-utils'
+import validator from 'validator'
+import { getUrlParameter } from './service'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Pre } from '~/types/ogp'
 
 type Data = object | string
 
-function isValidUrlParameter(url: string | string[]): boolean {
-  return !(url === undefined || url === null || Array.isArray(url))
-}
-
-function getUrlParameter(req: NextApiRequest): string | null {
-  const { url } = req.query
-  if (url && isValidUrlParameter(url)) return <string>url
-
-  return null
-}
-
 export default async function getOgpInfo(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data | ApiError>,
 ) {
   const url = getUrlParameter(req)
-  if (!url) {
-    res.status(400).send('error')
-    return
-  }
+
+  if (!url || !validator.isURL(url))
+    return res.status(HttpStatusCode.BadRequest).json({
+      statusCode: HttpStatusCode.BadRequest,
+      message: 'Validation Error: Url is invalid.',
+    })
 
   try {
     const response = await axios.get(url)
@@ -35,7 +29,6 @@ export default async function getOgpInfo(
     // metaからOGPを抽出し、JSON形式に変換する
     const ogp: Pre[] | object = Array.from(meta)
       .filter((element) => element.hasAttribute('property'))
-      // TODO:preにany以外の型をつける
       .reduce((pre, ogp) => {
         const ogpPre = pre as Pre
         const property = ogp
@@ -47,8 +40,12 @@ export default async function getOgpInfo(
 
         return ogpPre
       }, {})
-    res.status(200).json(ogp)
+    res.status(HttpStatusCode.Ok).json(ogp)
   } catch (e) {
-    if (e instanceof Error) res.status(400).send(e.message)
+    if (e instanceof Error)
+      res.status(HttpStatusCode.BadRequest).json({
+        statusCode: HttpStatusCode.BadRequest,
+        message: `${e.message}: ${e.cause}`,
+      })
   }
 }

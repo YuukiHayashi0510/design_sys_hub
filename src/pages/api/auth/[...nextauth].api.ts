@@ -1,6 +1,5 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import prisma from '../../../lib/prisma'
@@ -15,23 +14,6 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_ID || '',
       clientSecret: process.env.GITHUB_SECRET || '',
-    }),
-    // dev, test環境だけ常にログイン可
-    CredentialsProvider({
-      name: 'Test',
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'email',
-          placeholder: 'email@example.com',
-        },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize() {
-        return process.env.NODE_ENV === 'production'
-          ? null
-          : { id: '1', name: 'John Doe', email: 'john.doe@test.com' }
-      },
     }),
   ],
 

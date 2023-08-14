@@ -44,12 +44,12 @@ const readById = async (
     const post = await findPostById(id)
     if (post) return res.status(HttpStatusCode.Ok).json(post)
 
-    return res.status(HttpStatusCode.NotFound).json({
+    res.status(HttpStatusCode.NotFound).json({
       statusCode: HttpStatusCode.NotFound,
       message: 'Post is not found.',
     })
   } catch (err) {
-    prismaErrorHandler(err)
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }
 
@@ -72,9 +72,9 @@ const updateById = async (
 
   try {
     const post = await updatePost(data)
-    return res.status(HttpStatusCode.Ok).json(post)
+    res.status(HttpStatusCode.Ok).json(post)
   } catch (err) {
-    prismaErrorHandler(err)
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }
 
@@ -91,9 +91,9 @@ const deleteById = async (
 
   try {
     const post = await deletePost(id)
-    return res.status(HttpStatusCode.Ok).json(post)
+    res.status(HttpStatusCode.Ok).json(post)
   } catch (err) {
-    prismaErrorHandler(err)
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }
 

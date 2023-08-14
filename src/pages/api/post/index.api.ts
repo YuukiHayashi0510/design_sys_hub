@@ -28,9 +28,9 @@ export default async function handler(
 const readAll = async (res: NextApiResponse<Post[] | ApiError>) => {
   try {
     const allPosts = await findPostAll()
-    return res.status(HttpStatusCode.Ok).json(allPosts)
+    res.status(HttpStatusCode.Ok).json(allPosts)
   } catch (err) {
-    prismaErrorHandler(err)
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }
 
@@ -47,8 +47,8 @@ const createOne = async (
 
   try {
     const post = await createPost(data)
-    return res.status(HttpStatusCode.Created).json(post)
+    res.status(HttpStatusCode.Created).json(post)
   } catch (err) {
-    prismaErrorHandler(err)
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }

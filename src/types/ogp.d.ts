@@ -19,7 +19,7 @@
 export type Pre = {
   type: string
   image?: string
-  url?: string
+  url: string
   description?: string
   ['image:width']?: string
   ['image:height']?: string
