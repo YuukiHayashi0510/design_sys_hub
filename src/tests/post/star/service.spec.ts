@@ -41,6 +41,7 @@ describe('Star Service Test', () => {
   })
 
   afterAll(async () => {
+    await cleanUpDatabase()
     await prisma.$disconnect()
   })
 
