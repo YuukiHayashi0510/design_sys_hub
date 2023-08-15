@@ -5,6 +5,7 @@ import {
   deletePost,
   findPostAll,
   findPostById,
+  searchPostByKeyword,
   updatePost,
 } from '~/pages/api/post/service'
 import { CreatePostData, UpdatePostData } from '~/types/post'
@@ -68,6 +69,31 @@ describe('Post Service Test', () => {
     it('Find by ID', async () => {
       const res = await findPostById(post.id)
       expect(res).toMatchObject(post)
+    })
+
+    describe('Search by Keyword', () => {
+      const keyword = 'test'
+
+      describe('Success', () => {
+        it('Hit Name Column', async () => {
+          const res = await searchPostByKeyword(keyword)
+          expect(res.length).toBe(1)
+        })
+
+        it('Hit Description Column', async () => {
+          await prisma.post.update({
+            where: { id: post.id },
+            data: {
+              ...post,
+              name: '',
+              description: keyword,
+            },
+          })
+
+          const res = await searchPostByKeyword(keyword)
+          expect(res.length).toBe(1)
+        })
+      })
     })
   })
 

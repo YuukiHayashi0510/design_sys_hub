@@ -22,6 +22,17 @@ export async function findPostById(id: string): Promise<PostWithUser | null> {
   })
 }
 
+export async function searchPostByKeyword(keyword: string) {
+  return await prisma.post.findMany({
+    where: {
+      OR: [
+        { name: { contains: keyword } },
+        { description: { contains: keyword } },
+      ],
+    },
+  })
+}
+
 // Update
 export async function updatePost(data: UpdatePostData) {
   return await prisma.post.update({

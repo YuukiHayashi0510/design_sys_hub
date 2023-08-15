@@ -12,7 +12,7 @@ import { UpdatePostBody } from '~/types/post'
 describe('Post API Test', () => {
   let user: User
   let post: Post
-  let postList: Post[]
+  const postList: Post[] = []
   const url = '/api/post'
 
   async function createData() {
@@ -27,7 +27,6 @@ describe('Post API Test', () => {
       })
     }
 
-    postList = []
     for (let i = 0; i < 10; i++) {
       post = await prisma.post.create({
         data: {
