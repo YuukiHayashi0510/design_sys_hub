@@ -1,5 +1,5 @@
 import prisma from '~/lib/prisma'
-import { CreatePostData, PostWithUser, UpdatePostData } from '~/types/post'
+import { CreatePostData, PostWithUser, UpdatePostData } from '~/types/api/post'
 
 // Create
 export async function createPost(data: CreatePostData) {
@@ -8,7 +8,9 @@ export async function createPost(data: CreatePostData) {
 
 // Read
 export async function findPostAll() {
-  return await prisma.post.findMany()
+  return await prisma.post.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
 }
 
 export async function findPostById(id: string): Promise<PostWithUser | null> {
@@ -30,6 +32,7 @@ export async function searchPostByKeyword(keyword: string) {
         { description: { contains: keyword } },
       ],
     },
+    orderBy: { createdAt: 'desc' },
   })
 }
 

@@ -5,7 +5,9 @@ import { testApiHandler } from 'next-test-api-route-handler'
 import prisma, { cleanUpDatabase } from '~/lib/prisma'
 import { idHandler } from '~/pages/api/post/[id].api'
 import handler from '~/pages/api/post/index.api'
-import { UpdatePostBody } from '~/types/post'
+import { searchHandler } from '~/pages/api/post/search.api'
+import { isApiError } from '~/types/api/guard'
+import { UpdatePostBody } from '~/types/api/post'
 
 // Test API
 // 参考:https://qiita.com/tatsuya-miyamoto/items/f99eb069f65b30f2f816#%E5%9F%BA%E6%9C%AC%E7%B3%BB
@@ -305,6 +307,118 @@ describe('Post API Test', () => {
               message: 'Validation Error: ID is not String.',
             })
           },
+        })
+      })
+    })
+  })
+
+  describe('/api/post/search handler', () => {
+    const url = '/api/post/search'
+
+    describe('Keyword Search', () => {
+      describe('Success', () => {
+        it('Search By Name', async () => {
+          const keyword = post.name
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'GET',
+              })
+              const json = await res.json()
+              if (isApiError(json)) return
+
+              expect(json.length).toBe(1)
+            },
+          })
+        })
+
+        it('Search By Description', async () => {
+          const keyword = post.description
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'GET',
+              })
+              const json = await res.json()
+              if (!(json instanceof Array)) return
+
+              expect(json.length).toBe(1)
+            },
+          })
+        })
+
+        it('Keyword Post is None', async () => {
+          const keyword = 'Keyword'
+          expect.hasAssertions()
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'GET',
+              })
+              const json = await res.json()
+              if (!(json instanceof Array)) return
+
+              expect(json.length).toBe(0)
+            },
+          })
+        })
+      })
+
+      describe('Failure', () => {
+        it('Method Not Allowed', async () => {
+          const keyword = post.name
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'POST',
+              })
+              const json = await res.json()
+              if (!isApiError(json)) return
+
+              expect(json).toEqual({
+                statusCode: HttpStatusCode.MethodNotAllowed,
+                message: 'Method Not Allowed. Please use "GET" method.',
+              })
+            },
+          })
+        })
+
+        it('Keyword Validation Error', async () => {
+          const keyword = ['', '', '']
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'GET',
+              })
+              const json = await res.json()
+              if (!isApiError(json)) return
+
+              expect(json).toEqual({
+                statusCode: HttpStatusCode.BadRequest,
+                message: 'Validation Error: Keyword Query is not String.',
+              })
+            },
+          })
         })
       })
     })

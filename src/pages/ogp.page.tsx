@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import validator from 'validator'
 import { CustomNextPage } from '~/types/next-page'
-import { Pre } from '../types/ogp'
+import { Pre } from '../types/api/ogp'
 
 const OgpSample: CustomNextPage = () => {
   const [url, setUrl] = useState('')

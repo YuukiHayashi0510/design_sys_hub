@@ -8,7 +8,7 @@ import {
   searchPostByKeyword,
   updatePost,
 } from '~/pages/api/post/service'
-import { CreatePostData, UpdatePostData } from '~/types/post'
+import { CreatePostData, UpdatePostData } from '~/types/api/post'
 
 describe('Post Service Test', () => {
   let post: Post
