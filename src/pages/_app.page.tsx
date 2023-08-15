@@ -1,5 +1,6 @@
 import '~/styles/globals.css'
 import { NextComponentType } from 'next'
+import Head from 'next/head'
 import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import AuthGuard from '~/components/Guard/Auth'
@@ -15,6 +16,9 @@ export default function App({
 }: CustomAppProps) {
   return (
     <SessionProvider session={session}>
+      <Head>
+        <meta content='initial-scale=1, width=device-width' name='viewport' />
+      </Head>
       {Component.requireAuth ? (
         <AuthGuard>
           <Component {...pageProps} />

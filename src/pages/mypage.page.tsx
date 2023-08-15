@@ -18,5 +18,5 @@ const MyPage: CustomNextPage = () => {
   )
 }
 
-export default MyPage
 MyPage.requireAuth = true
+export default MyPage

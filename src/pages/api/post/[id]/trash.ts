@@ -3,8 +3,8 @@ import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
 import { prismaErrorHandler } from '~/lib/prisma'
-import { UpdatePostData } from '~/types/api/post'
-import { deletePost, updatePost } from '../service'
+import { PostWithUser, UpdatePostData } from '~/types/api/post'
+import { deletePost, findPostById, updatePost } from '../service'
 import { isUpdatePostData } from '../validate'
 
 // Read(GET), Update(PUT), Delete(DELETE)
@@ -12,7 +12,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'PUT' && req.method !== 'DELETE')
+  if (req.method !== 'GET' && req.method !== 'PUT' && req.method !== 'DELETE')
     return res.status(HttpStatusCode.MethodNotAllowed).json({
       statusCode: HttpStatusCode.MethodNotAllowed,
       message:
@@ -20,10 +20,36 @@ export default async function handler(
     })
 
   switch (req.method) {
+    case 'GET':
+      return await readById(req, res)
     case 'PUT':
       return await updateById(req, res)
     case 'DELETE':
       return await deleteById(req, res)
+  }
+}
+
+const readById = async (
+  req: NextApiRequest,
+  res: NextApiResponse<PostWithUser | ApiError>,
+) => {
+  const { id } = req.query
+  if (typeof id !== 'string')
+    return res.status(HttpStatusCode.BadRequest).json({
+      statusCode: HttpStatusCode.BadRequest,
+      message: 'Validation Error: ID is not String.',
+    })
+
+  try {
+    const post = await findPostById(id)
+    if (post) return res.status(HttpStatusCode.Ok).json(post)
+
+    res.status(HttpStatusCode.NotFound).json({
+      statusCode: HttpStatusCode.NotFound,
+      message: 'Post is not found.',
+    })
+  } catch (err) {
+    res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
 }
 
