@@ -1,7 +1,7 @@
 import { Post, User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import prisma, { cleanUpDatabase } from '~/lib/prisma'
-import { createStar, deleteStar } from '~/pages/api/post/[post_id]/star/service'
+import { createStar, deleteStar } from '~/pages/api/post/[id]/star/service'
 import { CreateStarData } from '~/types/api/post/star'
 
 describe('Star Service Test', () => {
