@@ -32,6 +32,13 @@ docker exec -it design-sys-hub-postgres /bin/bash
 psql -U design_sh_admin
 ```
 
+## Testing
+
+- Jest
+- ts-node
+- [next-test-api-route-handler](https://qiita.com/tatsuya-miyamoto/items/f99eb069f65b30f2f816#%E5%9F%BA%E6%9C%AC%E7%B3%BB)
+- faker
+
 ## PageComponent
 
 Pages内にてページとして認識させるには、`*.page.tsx`にする必要あり

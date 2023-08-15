@@ -9,8 +9,6 @@ import { searchHandler } from '~/pages/api/post/search.api'
 import { isApiError } from '~/types/api/guard'
 import { UpdatePostBody } from '~/types/api/post'
 
-// Test API
-// 参考:https://qiita.com/tatsuya-miyamoto/items/f99eb069f65b30f2f816#%E5%9F%BA%E6%9C%AC%E7%B3%BB
 describe('Post API Test', () => {
   let user: User
   let post: Post
