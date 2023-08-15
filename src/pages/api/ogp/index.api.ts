@@ -4,7 +4,7 @@ import { ApiError } from 'next/dist/server/api-utils'
 import validator from 'validator'
 import { getUrlParameter } from './service'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { Pre } from '~/types/ogp'
+import type { Pre } from '~/types/api/ogp'
 
 type Data = object | string
 

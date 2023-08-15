@@ -32,6 +32,12 @@ jobs:
       - name: package-install
         if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         run: yarn install
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/build-push-action@v4
+        with:
+          context: ./docker
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Storage init
         id: storage_init
         run: yarn storage:init

@@ -1,5 +1,5 @@
 import { isCreatePostData, isUpdatePostData } from '~/pages/api/post/validate'
-import { CreatePostData, UpdatePostData } from '~/types/post'
+import { CreatePostData, UpdatePostData } from '~/types/api/post'
 
 describe('Post Validation Test', () => {
   describe('CreatePostData', () => {

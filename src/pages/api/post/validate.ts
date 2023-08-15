@@ -1,4 +1,4 @@
-import { CreatePostData, UpdatePostData } from '~/types/post'
+import { CreatePostData, UpdatePostData } from '~/types/api/post'
 
 export const isCreatePostData = (value: object): value is CreatePostData => {
   return (

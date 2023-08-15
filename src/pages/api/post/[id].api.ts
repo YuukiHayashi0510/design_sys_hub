@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
 import { prismaErrorHandler } from '~/lib/prisma'
-import { PostWithUser, UpdatePostData } from '~/types/post'
+import { PostWithUser, UpdatePostData } from '~/types/api/post'
 import { deletePost, findPostById, updatePost } from './service'
 import { isUpdatePostData } from './validate'
 

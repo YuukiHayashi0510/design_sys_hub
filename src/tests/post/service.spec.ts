@@ -5,9 +5,10 @@ import {
   deletePost,
   findPostAll,
   findPostById,
+  searchPostByKeyword,
   updatePost,
 } from '~/pages/api/post/service'
-import { CreatePostData, UpdatePostData } from '~/types/post'
+import { CreatePostData, UpdatePostData } from '~/types/api/post'
 
 describe('Post Service Test', () => {
   let post: Post
@@ -68,6 +69,60 @@ describe('Post Service Test', () => {
     it('Find by ID', async () => {
       const res = await findPostById(post.id)
       expect(res).toMatchObject(post)
+    })
+
+    describe('Search by Keyword', () => {
+      const keyword = 'test'
+
+      describe('Success', () => {
+        it('Hit Name Column', async () => {
+          const res = await searchPostByKeyword(keyword)
+
+          expect(res.length).toBe(1)
+          expect(res[0].name).toBe(post.name)
+          expect(res[0].description).toBe(post.description)
+          expect(res[0].image).toBe(post.image)
+          expect(res[0].url).toBe(post.url)
+        })
+
+        it('Hit Description Column', async () => {
+          const p = await prisma.post.update({
+            where: { id: post.id },
+            data: {
+              ...post,
+              name: '',
+              description: keyword,
+            },
+          })
+
+          const res = await searchPostByKeyword(keyword)
+
+          expect(res.length).toBe(1)
+          expect(res[0].name).toBe(p.name)
+          expect(res[0].description).toBe(p.description)
+          expect(res[0].image).toBe(p.image)
+          expect(res[0].url).toBe(p.url)
+        })
+
+        it('Hit Name & Description', async () => {
+          const p = await prisma.post.update({
+            where: { id: post.id },
+            data: {
+              ...post,
+              name: keyword,
+              description: keyword,
+            },
+          })
+
+          const res = await searchPostByKeyword(keyword)
+
+          expect(res.length).toBe(1)
+          expect(res[0].name).toBe(p.name)
+          expect(res[0].description).toBe(p.description)
+          expect(res[0].image).toBe(p.image)
+          expect(res[0].url).toBe(p.url)
+        })
+      })
     })
   })
 
