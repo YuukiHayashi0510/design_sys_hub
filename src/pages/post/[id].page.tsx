@@ -3,6 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { UpdatePostBody } from '~/types/api/post'
+import { CustomNextPage } from '~/types/next-page'
 import { findPostById } from '../api/post/service'
 
 type PostProps = {
@@ -13,9 +14,9 @@ type PostProps = {
   url: string
 }
 
-function Detail({
-  post,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const Detail: CustomNextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ post }) => {
   const {
     register,
     setValue,
@@ -102,4 +103,5 @@ export const getServerSideProps: GetServerSideProps<{
   return { props: { post } }
 }
 
+Detail.requireAuth = true
 export default Detail
