@@ -355,6 +355,38 @@ describe('Post API Test', () => {
           })
         })
 
+        it('Contains Name & Description', async () => {
+          const keyword = post.name
+
+          const updatePost = await prisma.post.update({
+            where: { id: post.id },
+            data: {
+              description: keyword,
+            },
+          })
+
+          await testApiHandler({
+            requestPatcher: (req) => (req.url = url),
+            params: { keyword: keyword },
+            handler: searchHandler,
+            test: async ({ fetch }) => {
+              const res = await fetch({
+                method: 'GET',
+              })
+              const json = await res.json()
+              if (isApiError(json)) return
+
+              expect(json.length).toBe(1)
+
+              const jsonPost = json[0]
+              expect(jsonPost.name).toBe(updatePost.name)
+              expect(jsonPost.description).toBe(updatePost.description)
+              expect(jsonPost.image).toBe(updatePost.image)
+              expect(jsonPost.url).toBe(updatePost.url)
+            },
+          })
+        })
+
         it('Keyword Post is None', async () => {
           const keyword = 'Keyword'
           expect.hasAssertions()
@@ -368,7 +400,7 @@ describe('Post API Test', () => {
                 method: 'GET',
               })
               const json = await res.json()
-              if (!(json instanceof Array)) return
+              if (isApiError(json)) return
 
               expect(json.length).toBe(0)
             },
