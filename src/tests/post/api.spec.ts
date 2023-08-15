@@ -3,14 +3,12 @@ import { Post, User } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { testApiHandler } from 'next-test-api-route-handler'
 import prisma, { cleanUpDatabase } from '~/lib/prisma'
-import { idHandler } from '~/pages/api/post/[id].api'
+import { idHandler } from '~/pages/api/post/[id]/index.api'
 import handler from '~/pages/api/post/index.api'
 import { searchHandler } from '~/pages/api/post/search.api'
 import { isApiError } from '~/types/api/guard'
 import { UpdatePostBody } from '~/types/api/post'
 
-// Test API
-// 参考:https://qiita.com/tatsuya-miyamoto/items/f99eb069f65b30f2f816#%E5%9F%BA%E6%9C%AC%E7%B3%BB
 describe('Post API Test', () => {
   let user: User
   let post: Post
@@ -49,6 +47,7 @@ describe('Post API Test', () => {
   })
 
   afterAll(async () => {
+    await cleanUpDatabase()
     await prisma.$disconnect()
   })
 

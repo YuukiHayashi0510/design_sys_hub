@@ -27,6 +27,7 @@ describe('Post Validation Test', () => {
       expect(isSuccess).toBe(false)
     })
   })
+
   describe('UpdatePostData', () => {
     it('Success', () => {
       const data: UpdatePostData = {
@@ -40,6 +41,7 @@ describe('Post Validation Test', () => {
       const isSuccess = isUpdatePostData(data)
       expect(isSuccess).toBe(true)
     })
+
     it('Failure', () => {
       const data = {
         name: '',

@@ -54,10 +54,23 @@ erDiagram
     DateTime updated_at 
     }
   
+
+  "Star" {
+    String id "🗝️"
+    String user_id 
+    String post_id 
+    DateTime created_at 
+    DateTime updated_at 
+    }
+  
     "Account" o|--|| "User" : "user"
     "Session" o|--|| "User" : "user"
     "User" o{--}o "Account" : "accounts"
     "User" o{--}o "Session" : "sessions"
     "User" o{--}o "Post" : "posts"
+    "User" o{--}o "Star" : "stars"
     "Post" o|--|| "User" : "user"
+    "Post" o{--}o "Star" : "stars"
+    "Star" o|--|| "Post" : "post"
+    "Star" o|--|| "User" : "user"
 ```

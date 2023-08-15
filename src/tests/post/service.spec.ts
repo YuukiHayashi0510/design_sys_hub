@@ -39,6 +39,7 @@ describe('Post Service Test', () => {
   })
 
   afterAll(async () => {
+    await cleanUpDatabase()
     await prisma.$disconnect()
   })
 

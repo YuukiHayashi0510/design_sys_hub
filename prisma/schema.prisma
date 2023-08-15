@@ -16,8 +16,9 @@ generator erd {
 datasource db {
   provider = "postgresql"
   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+  // 開発環境ではコメントアウトして開発（マイグレーションできなくなるため）
+  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
 model Account {
@@ -59,6 +60,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  stars         Star[]
 }
 
 model VerificationToken {
@@ -80,4 +82,18 @@ model Post {
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   user          User      @relation(fields: [userId], references: [id], onUpdate: Restrict, onDelete: Cascade)
+  stars         Star[]
+}
+
+model Star {
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
+  postId        String    @map("post_id")
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  post          Post      @relation(fields: [postId], references: [id], onUpdate: Restrict, onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onUpdate: Restrict, onDelete: Cascade)
+
+  @@unique([userId, postId])
 }
