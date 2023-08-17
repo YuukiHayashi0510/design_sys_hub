@@ -1,6 +1,7 @@
 import { Button, TextField } from '@mui/material'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { UpdatePostBody } from '~/types/api/post'
 import { CustomNextPage } from '~/types/next-page'
@@ -12,6 +13,7 @@ type PostProps = {
   description: string
   image: string
   url: string
+  userId: string
 }
 
 const Detail: CustomNextPage<
@@ -24,6 +26,7 @@ const Detail: CustomNextPage<
     formState: { errors, isValid },
   } = useForm<PostProps>({ defaultValues: post })
 
+  const { data: session } = useSession()
   const router = useRouter()
 
   const url = `/api/post/${post.id}`
@@ -59,33 +62,44 @@ const Detail: CustomNextPage<
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className='my-10 grid grid-cols-6'>
+      <form
+        className='col-span-4 col-start-2 flex flex-col gap-y-4'
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <TextField
+          label='url'
           {...register('url', { required: true })}
           error={!!errors.url}
           helperText={errors.url?.message}
         />
         <TextField
+          label='name'
           {...register('name', { required: true })}
           error={!!errors.name}
           helperText={errors.name?.message}
         />
         <TextField
+          label='description'
           {...register('description', { required: true })}
           error={!!errors.description}
           helperText={errors.description?.message}
         />
         <TextField
+          label='image'
           {...register('image', { required: true })}
           error={!!errors.image}
           helperText={errors.image?.message}
         />
 
-        <Button disabled={!isValid} type='submit'>
-          更新
-        </Button>
-        <Button onClick={onClickDelete}>削除</Button>
+        {session!.user!.id === post.userId ? (
+          <>
+            <Button disabled={!isValid} type='submit'>
+              更新
+            </Button>
+            <Button onClick={onClickDelete}>削除</Button>
+          </>
+        ) : null}
       </form>
     </div>
   )

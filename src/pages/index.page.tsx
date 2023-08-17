@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { Post } from '@prisma/client'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { findPostAll } from './api/post/service'
+import prisma from '~/lib/prisma'
 
 export default function Home({
   allPosts,
@@ -21,13 +21,13 @@ export default function Home({
           allPosts.map((post) => {
             return (
               <Card key={post.id}>
-                {post.image && (
+                <div className='relative'>
                   <CardMedia
                     className='h-50 aspect-image'
                     image={post.image}
                     title={post.name}
                   />
-                )}
+                </div>
                 <CardContent>
                   <Typography component='div' gutterBottom variant='h5'>
                     {post.name}
@@ -37,7 +37,19 @@ export default function Home({
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button href={post.url} size='small' target='_blank'>
+                  <Button
+                    className='normal-case'
+                    href={`/post/${post.id}`}
+                    size='small'
+                  >
+                    Detail
+                  </Button>
+                  <Button
+                    className='normal-case'
+                    href={post.url}
+                    size='small'
+                    target='_blank'
+                  >
                     Learn More
                   </Button>
                 </CardActions>
@@ -52,7 +64,9 @@ export default function Home({
 export const getServerSideProps: GetServerSideProps<{
   allPosts: Post[]
 }> = async () => {
-  const res = await findPostAll()
+  const res = await prisma.post.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
   const allPosts = JSON.parse(JSON.stringify(res))
 
   return {
