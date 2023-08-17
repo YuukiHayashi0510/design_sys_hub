@@ -1,7 +1,9 @@
 import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
+import { getServerSession } from 'next-auth'
 import { prismaErrorHandler } from '~/lib/prisma'
+import { authOptions } from '~/pages/api/auth/[...nextauth].api'
 import { deleteStar } from './service'
 
 type Data = {
@@ -17,6 +19,13 @@ export default async function handler(
     return res.status(HttpStatusCode.MethodNotAllowed).json({
       statusCode: HttpStatusCode.MethodNotAllowed,
       message: 'Method Not Allowed. Please use "DELETE" method.',
+    })
+
+  const session = await getServerSession(req, res, authOptions)
+  if (!session || !session.user)
+    return res.status(HttpStatusCode.Unauthorized).json({
+      statusCode: HttpStatusCode.Unauthorized,
+      message: 'Unauthorized. You must be logged in.',
     })
 
   const { starId } = req.query
