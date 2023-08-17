@@ -7,7 +7,7 @@ import { UpdatePostData } from '~/types/api/post'
 import { deletePost, updatePost } from '../service'
 import { isUpdatePostData } from '../validate'
 
-// Read(GET), Update(PUT), Delete(DELETE)
+// Update(PUT), Delete(DELETE)
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

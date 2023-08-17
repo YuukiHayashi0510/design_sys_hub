@@ -3,8 +3,8 @@ import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
 import { prismaErrorHandler } from '~/lib/prisma'
-import { createPost, findPostAll } from './service'
-import { isCreatePostData } from './validate'
+import { createPost, findPostAll } from '../../pages/api/post/service'
+import { isCreatePostData } from '../../pages/api/post/validate'
 
 // Index(GET), Create(POST)
 export default async function handler(

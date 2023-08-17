@@ -4,8 +4,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
 import { prismaErrorHandler } from '~/lib/prisma'
 import { PostWithUser, UpdatePostData } from '~/types/api/post'
-import { deletePost, findPostById, updatePost } from '../service'
-import { isUpdatePostData } from '../validate'
+import {
+  deletePost,
+  findPostById,
+  updatePost,
+} from '../../../pages/api/post/service'
+import { isUpdatePostData } from '../../../pages/api/post/validate'
 
 // Read(GET), Update(PUT), Delete(DELETE)
 export default async function handler(
