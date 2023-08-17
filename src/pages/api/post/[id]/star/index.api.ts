@@ -1,7 +1,9 @@
 import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
+import { getServerSession } from 'next-auth'
 import { prismaErrorHandler } from '~/lib/prisma'
+import { authOptions } from '~/pages/api/auth/[...nextauth].api'
 import { createStar } from './service'
 
 type Data = {
@@ -19,6 +21,13 @@ export default async function handler(
       message: 'Method Not Allowed. Please use "POST" method.',
     })
 
+  const session = await getServerSession(req, res, authOptions)
+  if (!session || !session.user)
+    return res.status(HttpStatusCode.Unauthorized).json({
+      statusCode: HttpStatusCode.Unauthorized,
+      message: 'Unauthorized. You must be logged in.',
+    })
+
   const { id: postId } = req.query
   if (typeof postId !== 'string')
     return res.status(HttpStatusCode.BadRequest).json({
@@ -26,16 +35,8 @@ export default async function handler(
       message: 'Validation Error: ID is not String.',
     })
 
-  // NextAuthのsessionの取得方法とテスト時のログイン方法がわからないので、userIdをbodyでもらう
-  const { userId } = req.body
-  if (typeof userId !== 'string')
-    return res.status(HttpStatusCode.BadRequest).json({
-      statusCode: HttpStatusCode.BadRequest,
-      message: 'Validation Error: User ID is not String.',
-    })
-
   try {
-    const star = await createStar({ postId, userId })
+    const star = await createStar({ postId, userId: session.user.id })
     res
       .status(HttpStatusCode.Created)
       .json({ starCount: star.post._count.stars })
