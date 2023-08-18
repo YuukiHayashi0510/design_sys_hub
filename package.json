@@ -1,5 +1,5 @@
 {
-  "name": "ts-next.mui-tailwind-template",
+  "name": "design-system-hub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,9 +21,7 @@
     "test": "dotenv -e .env.test -- yarn jest --runInBand --silent",
     "test:ci": "yarn jest --runInBand --silent",
     "test:watch": "dotenv -e .env.test -- yarn jest --watch --runInBand",
-    "storage:init": "docker compose build && docker compose up -d",
-    "storybook": "storybook dev -p 6006 -s ./public",
-    "build-storybook": "storybook build -s ./public"
+    "storage:init": "docker compose build && docker compose up -d"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -47,15 +45,6 @@
     "@faker-js/faker": "^8.0.2",
     "@mermaid-js/mermaid-cli": "^10.3.0",
     "@prisma/generator-helper": "^5.1.1",
-    "@storybook/addon-backgrounds": "^7.3.1",
-    "@storybook/addon-essentials": "^7.3.1",
-    "@storybook/addon-interactions": "^7.3.1",
-    "@storybook/addon-links": "^7.3.1",
-    "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/blocks": "^7.3.1",
-    "@storybook/nextjs": "^7.3.1",
-    "@storybook/react": "^7.3.1",
-    "@storybook/testing-library": "^0.2.0",
     "@types/jest": "^29.5.3",
     "@types/jsdom": "^21.1.1",
     "@types/node": "20.4.2",
@@ -68,7 +57,6 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-unused-imports": "^3.0.0",
     "jest": "^29.6.2",
     "next-test-api-route-handler": "^3.1.8",
@@ -77,7 +65,6 @@
     "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.1.1",
     "prisma-erd-generator": "^1.10.0",
-    "storybook": "^7.3.1",
     "tailwindcss": "^3.2.7",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
