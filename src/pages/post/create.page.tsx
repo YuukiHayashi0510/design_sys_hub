@@ -1,4 +1,4 @@
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Switch, FormControlLabel } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -24,6 +24,8 @@ const Create: CustomNextPage = () => {
 
   const router = useRouter()
 
+  const onChangeSwitch = () => setIsOgpMode((prev) => !prev)
+
   const onSubmit: SubmitHandler<Form> = async (data) => {
     await fetch('/api/post', {
       method: 'PUT',
@@ -41,12 +43,20 @@ const Create: CustomNextPage = () => {
         className='col-span-4 col-start-2 flex flex-col gap-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
+        <FormControlLabel
+          checked={isOgpMode}
+          control={<Switch />}
+          label='OGP'
+          onChange={onChangeSwitch}
+          required
+        />
         <TextField
           label='url'
           {...register('url', { required: true })}
           error={!!errors.url}
           helperText={errors.url?.message}
         />
+        <Button>OGPを取得</Button>
         {isOgpMode ? (
           <>
             <></>
