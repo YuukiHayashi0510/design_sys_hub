@@ -5,9 +5,7 @@ export default function Document() {
     <Html lang='ja'>
       <Head />
       <body>
-        <div className='min-h-screen'>
-          <Main />
-        </div>
+        <Main />
         <NextScript />
       </body>
     </Html>
