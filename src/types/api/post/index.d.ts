@@ -1,4 +1,4 @@
-import { Post, User } from '@prisma/client'
+import { Post, Star, User } from '@prisma/client'
 
 export type CreatePostData = {
   name: string
@@ -26,4 +26,13 @@ export type UpdatePostBody = {
 // 参考:https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types#problem-using-variations-of-the-generated-model-type
 export type PostWithUser = Post & {
   user: User
+}
+
+type StarWithPost = Star & {
+  post: Post
+}
+
+export type MyPageUser = User & {
+  posts: Post[]
+  stars: StarWithPost[]
 }

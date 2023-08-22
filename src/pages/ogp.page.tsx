@@ -62,5 +62,5 @@ const OgpSample: CustomNextPage = () => {
   )
 }
 
-export default OgpSample
 OgpSample.requireAuth = true
+export default OgpSample

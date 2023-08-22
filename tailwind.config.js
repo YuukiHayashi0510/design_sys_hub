@@ -5,7 +5,16 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        tablet: '520px',
+        laptop: '960px',
+        desktop: '1280px',
+      },
+      aspectRatio: {
+        image: '2 / 1',
+      },
+    },
   },
   plugins: [],
   corePlugins: {
