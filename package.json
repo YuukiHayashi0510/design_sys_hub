@@ -24,7 +24,7 @@
     "test:watch": "dotenv -e .env.test -- yarn jest --watch --runInBand",
     "storage:init": "docker compose build && docker compose up -d",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build -o ./public/storybook"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
