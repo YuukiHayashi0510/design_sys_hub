@@ -87,6 +87,7 @@ const Detail: CustomNextPage<
           disabled={session?.user?.id !== post.userId}
           error={!!errors.description}
           helperText={errors.description?.message}
+          multiline
         />
         <TextField
           label='image'

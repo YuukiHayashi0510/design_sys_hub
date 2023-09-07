@@ -4,5 +4,10 @@
     "source.fixAll.eslint": true,
     "source.addMissingImports": true
   },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    ".next": true
+  },
   "cSpell.words": ["nextauth"]
 }

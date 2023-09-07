@@ -118,6 +118,7 @@ const Create: CustomNextPage = () => {
           {...register('description', { required: true })}
           error={!!errors.description}
           helperText={errors.description?.message}
+          multiline
         />
         <TextField
           label='image'
