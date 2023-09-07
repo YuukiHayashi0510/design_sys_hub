@@ -9,5 +9,12 @@
     "**/.DS_Store": true,
     ".next": true
   },
-  "cSpell.words": ["nextauth", "signin"]
+  "cSpell.words": [
+    "appbar",
+    "autodocs",
+    "mypage",
+    "nextauth",
+    "nextjs",
+    "signin"
+  ]
 }
