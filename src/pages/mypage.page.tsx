@@ -11,20 +11,23 @@ const MyPage: CustomNextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ user }) => {
   return (
-    <div className=''>
-      <div></div>
-      {/* post */}
-      <div className='grid-cols-4 gap-4 laptop:grid'>
-        {user.posts.map((post) => (
-          <PostCard description={false} key={post.id} post={post} />
-        ))}
+    <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-2'>
+        <h2>My Posts</h2>
+        <div className='grid grid-cols-4 gap-4'>
+          {user.posts.map((post) => (
+            <PostCard key={post.id} post={post} showDescription={false} />
+          ))}
+        </div>
       </div>
 
-      {/* star-post */}
-      <div>
-        {user.stars.map((s) => (
-          <PostCard key={s.id} post={s.post} />
-        ))}
+      <div className='flex flex-col gap-2'>
+        <h2>My Star Posts</h2>
+        <div className='grid grid-cols-4 gap-4'>
+          {user.stars.map((s) => (
+            <PostCard key={s.id} post={s.post} />
+          ))}
+        </div>
       </div>
     </div>
   )

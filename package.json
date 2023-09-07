@@ -14,6 +14,7 @@
     "db:migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --skip-seed",
     "db:migrate:status": "yarn prisma migrate status",
     "db:migrate:reset": "yarn prisma migrate reset --skip-seed",
+    "db:seed": "yarn prisma db seed",
     "db:studio": "yarn prisma studio",
     "db:studio:test": "dotenv -e .env.test -- yarn prisma studio",
     "db:push:prd": "dotenv -e .env.production -- yarn prisma db push",
@@ -22,6 +23,9 @@
     "test:ci": "yarn jest --runInBand --silent",
     "test:watch": "dotenv -e .env.test -- yarn jest --watch --runInBand",
     "storage:init": "docker compose build && docker compose up -d"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

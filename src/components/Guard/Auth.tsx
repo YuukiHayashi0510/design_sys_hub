@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import React, { useEffect } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 
-const AuthGuard = ({ children }: { children: React.ReactNode }) => {
+const AuthGuard = ({ children }: PropsWithChildren) => {
   const { status } = useSession()
   const router = useRouter()
 

@@ -27,6 +27,7 @@ const Create: CustomNextPage = () => {
   const {
     register,
     watch,
+    setValue,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<Form>()
@@ -40,8 +41,11 @@ const Create: CustomNextPage = () => {
 
     await fetch(`${router.basePath}/api/ogp?url=${watch('url')}`)
       .then((res) => res.json())
-      .then((json) => {
+      .then((json: Pre) => {
         setOgp(json)
+        setValue('name', json.title ?? '')
+        setValue('description', json.description ?? '')
+        setValue('image', json.image ?? '')
       })
       .catch((e) => {
         alert('OGPを取得できませんでした')
@@ -54,14 +58,15 @@ const Create: CustomNextPage = () => {
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
     const res = await fetch('/api/post', {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then((res) => res.json())
+    })
 
-    if (res) await router.push('/')
+    if (res.ok) await router.push('/')
+    else alert(res.statusText)
   }
 
   return (
@@ -86,7 +91,7 @@ const Create: CustomNextPage = () => {
           error={!!errors.url}
           helperText={errors.url?.message}
         />
-        {isOgpMode ? (
+        {isOgpMode && (
           <>
             <Button
               disabled={!isURL(watch('url') ?? '')}
@@ -101,28 +106,26 @@ const Create: CustomNextPage = () => {
             )}
             {isLoading && <CircularProgress />}
           </>
-        ) : (
-          <>
-            <TextField
-              label='name'
-              {...register('name', { required: true })}
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
-            <TextField
-              label='description'
-              {...register('description', { required: true })}
-              error={!!errors.description}
-              helperText={errors.description?.message}
-            />
-            <TextField
-              label='image'
-              {...register('image', { required: true })}
-              error={!!errors.image}
-              helperText={errors.image?.message}
-            />
-          </>
         )}
+        <TextField
+          label='name'
+          {...register('name', { required: true })}
+          error={!!errors.name}
+          helperText={errors.name?.message}
+        />
+        <TextField
+          label='description'
+          {...register('description', { required: true })}
+          error={!!errors.description}
+          helperText={errors.description?.message}
+          multiline
+        />
+        <TextField
+          label='image'
+          {...register('image', { required: true })}
+          error={!!errors.image}
+          helperText={errors.image?.message}
+        />
         <Button disabled={!isValid} type='submit'>
           投稿
         </Button>
