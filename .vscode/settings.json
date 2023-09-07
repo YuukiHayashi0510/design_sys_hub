@@ -9,5 +9,5 @@
     "**/.DS_Store": true,
     ".next": true
   },
-  "cSpell.words": ["nextauth"]
+  "cSpell.words": ["nextauth", "signin"]
 }
