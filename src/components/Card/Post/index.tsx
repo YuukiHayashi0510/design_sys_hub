@@ -13,32 +13,45 @@ import { twMerge } from 'tailwind-merge'
 export type PostCardProps = {
   post: Post
   className?: string
-  description?: boolean
+  showDescription?: boolean
 } & ComponentPropsWithoutRef<typeof Card>
 
-function PostCard({ post, className, description = true }: PostCardProps) {
-  const allClasses = twMerge('', className)
+function PostCard({ post, className, showDescription = true }: PostCardProps) {
+  const allClasses = twMerge(
+    'relative',
+    showDescription && 'h-[400px]',
+    className,
+  )
 
   return (
     <Card className={allClasses}>
       <div className='relative'>
         <CardMedia
-          className='tablet:h-50 h-35 aspect-image'
+          className='aspect-image'
           image={post.image}
           title={post.name}
         />
       </div>
       <CardContent>
-        <Typography component='div' gutterBottom variant='h5'>
+        <Typography
+          className={showDescription ? 'max-h-[38px] overflow-hidden' : ''}
+          component='div'
+          gutterBottom
+          variant='h6'
+        >
           {post.name}
         </Typography>
-        {description && (
-          <Typography color='text.secondary' variant='body2'>
+        {showDescription && (
+          <Typography
+            className='max-h-[83px] overflow-hidden'
+            color='text.secondary'
+            variant='body2'
+          >
             {post.description}
           </Typography>
         )}
       </CardContent>
-      <CardActions>
+      <CardActions className={showDescription ? 'absolute bottom-0' : ''}>
         <Button className='normal-case' href={`/post/${post.id}`} size='small'>
           Detail
         </Button>

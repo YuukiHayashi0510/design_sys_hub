@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button, TextField } from '@mui/material'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
@@ -32,9 +33,11 @@ const Detail: CustomNextPage<
   const url = `/api/post/${post.id}`
 
   const onClickDelete = async () => {
-    await fetch(url, {
+    const res = await fetch(url, {
       method: 'DELETE',
     })
+
+    if (!res.ok) alert(await res.text())
     await router.push('/')
   }
 
@@ -53,6 +56,8 @@ const Detail: CustomNextPage<
       },
       body: JSON.stringify(body),
     })
+
+    if (!res.ok) alert(await res.text())
     const json = await res.json()
 
     setValue('name', json.name)
@@ -67,29 +72,35 @@ const Detail: CustomNextPage<
         className='col-span-4 col-start-2 flex flex-col gap-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <TextField
-          label='url'
-          {...register('url', { required: true })}
-          error={!!errors.url}
-          helperText={errors.url?.message}
-        />
+        <img alt={post.description} className='p-10' src={post.image} />
+
         <TextField
           label='name'
           {...register('name', { required: true })}
+          disabled={session?.user?.id !== post.userId}
           error={!!errors.name}
           helperText={errors.name?.message}
         />
         <TextField
           label='description'
           {...register('description', { required: true })}
+          disabled={session?.user?.id !== post.userId}
           error={!!errors.description}
           helperText={errors.description?.message}
         />
         <TextField
           label='image'
           {...register('image', { required: true })}
+          disabled={session?.user?.id !== post.userId}
           error={!!errors.image}
           helperText={errors.image?.message}
+        />
+        <TextField
+          label='url'
+          {...register('url', { required: true })}
+          disabled={session?.user?.id !== post.userId}
+          error={!!errors.url}
+          helperText={errors.url?.message}
         />
 
         {session!.user!.id === post.userId ? (
