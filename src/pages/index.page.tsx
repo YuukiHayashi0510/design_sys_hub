@@ -31,7 +31,7 @@ export default function Home({
       />
       <div className='gap-4 tablet:grid tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4'>
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard className='w-auto' key={post.id} post={post} />
         ))}
       </div>
       <Pagination

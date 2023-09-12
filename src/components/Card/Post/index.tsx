@@ -18,7 +18,7 @@ export type PostCardProps = {
 
 function PostCard({ post, className, showDescription = true }: PostCardProps) {
   const allClasses = twMerge(
-    'relative',
+    'relative w-[400px]',
     showDescription && 'h-[400px]',
     className,
   )
