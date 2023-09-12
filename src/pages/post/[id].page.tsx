@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import Button from '~/components/Button/Main'
 import { UpdatePostBody } from '~/types/api/post'
 import { CustomNextPage } from '~/types/next-page'
 import { findPostById } from '../api/post/service'

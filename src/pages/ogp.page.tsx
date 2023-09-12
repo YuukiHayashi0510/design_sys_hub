@@ -1,7 +1,7 @@
-import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import validator from 'validator'
+import Button from '~/components/Button/Main'
 import { CustomNextPage } from '~/types/next-page'
 import { Pre } from '../types/api/ogp'
 

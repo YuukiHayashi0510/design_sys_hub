@@ -1,6 +1,5 @@
 import {
   TextField,
-  Button,
   Switch,
   FormControlLabel,
   CircularProgress,
@@ -9,6 +8,7 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import isURL from 'validator/lib/isURL'
+import Button from '~/components/Button/Main'
 import { Pre } from '~/types/api/ogp'
 import { CustomNextPage } from '~/types/next-page'
 
