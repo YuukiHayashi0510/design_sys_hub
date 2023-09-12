@@ -18,18 +18,6 @@ const SignIn = ({
               {provider.name === 'Google' && (
                 <StyledGoogleButton onClick={onClick} />
               )}
-              {process.env.NODE_ENV !== 'production' && (
-                <>
-                  {provider.name === 'Test' && (
-                    <button
-                      className='my-4 inline-flex w-60 cursor-pointer items-center justify-center px-5 py-2.5 text-center text-sm font-medium'
-                      onClick={onClick}
-                    >
-                      Test環境ログイン
-                    </button>
-                  )}
-                </>
-              )}
             </div>
           )
         })}
