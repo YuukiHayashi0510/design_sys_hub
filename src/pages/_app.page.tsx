@@ -3,8 +3,8 @@ import { NextComponentType } from 'next'
 import Head from 'next/head'
 import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
-import AuthGuard from '~/components/Guard/Auth'
 import Layout from '~/components/Layout'
+import AuthGuard from '~/lib/guard/Auth'
 import type { AppProps } from 'next/app'
 
 export type CustomAppProps = AppProps<{ session: Session }> & {
