@@ -88,6 +88,7 @@ const Detail: CustomNextPage<
           error={!!errors.description}
           helperText={errors.description?.message}
           multiline
+          rows={4}
         />
         <TextField
           label='image'
