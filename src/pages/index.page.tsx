@@ -1,9 +1,8 @@
-import { Pagination } from '@mui/material'
 import { Post } from '@prisma/client'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
-import { ChangeEvent } from 'react'
 import PostCard from '~/components/Card/Post'
+import Pagination from '~/components/Pagination'
 import { usePage } from '~/lib/hooks/usePage'
 import prisma from '~/lib/prisma'
 
@@ -14,20 +13,17 @@ export default function Home({
   const page = usePage()
   const router = useRouter()
 
-  const onChangePagination = (_: ChangeEvent<unknown>, value: number) => {
+  const onChangePagination = (value: number) => {
     router.push({ query: { page: value } })
   }
 
   return (
-    <main className='flex flex-col items-center justify-between gap-6'>
-      <h1 className=''>一覧</h1>
+    <div className='flex flex-col items-center justify-between gap-6'>
+      <h1>一覧</h1>
       <Pagination
-        color='primary'
-        count={totalPage}
         onChange={onChangePagination}
         page={page ?? 1}
-        showFirstButton
-        showLastButton
+        totalPage={totalPage}
       />
       <div className='gap-4 tablet:grid tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4'>
         {posts.map((post) => (
@@ -35,14 +31,11 @@ export default function Home({
         ))}
       </div>
       <Pagination
-        color='primary'
-        count={totalPage}
         onChange={onChangePagination}
         page={page ?? 1}
-        showFirstButton
-        showLastButton
+        totalPage={totalPage}
       />
-    </main>
+    </div>
   )
 }
 

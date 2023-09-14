@@ -4,11 +4,12 @@ import {
   CardContent,
   Typography,
   CardActions,
-  Button,
 } from '@mui/material'
 import { Post } from '@prisma/client'
+import Link from 'next/link'
 import React, { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
+import Button from '~/components/Button/Main'
 
 export type PostCardProps = {
   post: Post
@@ -52,16 +53,13 @@ function PostCard({ post, className, showDescription = true }: PostCardProps) {
         )}
       </CardContent>
       <CardActions className={showDescription ? 'absolute bottom-0' : ''}>
-        <Button className='normal-case' href={`/post/${post.id}`} size='small'>
-          Detail
+        <Button size='small'>
+          <Link href={`/post/${post.id}`}>Detail</Link>
         </Button>
-        <Button
-          className='normal-case'
-          href={post.url}
-          size='small'
-          target='_blank'
-        >
-          Learn More
+        <Button size='small'>
+          <a href={post.url} rel='noopener noreferrer' target='_blank'>
+            Learn More
+          </a>
         </Button>
       </CardActions>
     </Card>

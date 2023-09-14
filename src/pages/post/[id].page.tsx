@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-import { Button, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import Button from '~/components/Button/Main'
+import Image from '~/components/Image'
 import { UpdatePostBody } from '~/types/api/post'
 import { CustomNextPage } from '~/types/next-page'
 import { findPostById } from '../api/post/service'
@@ -72,7 +73,7 @@ const Detail: CustomNextPage<
         className='col-span-4 col-start-2 flex flex-col gap-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <img alt={post.description} className='p-10' src={post.image} />
+        <Image alt={post.description} src={post.image} />
 
         <TextField
           label='name'
@@ -88,6 +89,7 @@ const Detail: CustomNextPage<
           error={!!errors.description}
           helperText={errors.description?.message}
           multiline
+          rows={4}
         />
         <TextField
           label='image'

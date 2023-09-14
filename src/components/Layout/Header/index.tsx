@@ -9,11 +9,15 @@ import {
   MenuItem,
 } from '@mui/material'
 import Link from 'next/link'
-import { signOut, useSession } from 'next-auth/react'
+import { Session } from 'next-auth'
 import React, { useState } from 'react'
 
-function Header() {
-  const { data } = useSession()
+export type HeaderProps = {
+  user?: Session['user']
+  onClickSignOut: () => void
+}
+
+const Header: React.FC<HeaderProps> = ({ user, onClickSignOut }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,8 +28,6 @@ function Header() {
     setAnchorEl(null)
   }
 
-  const onClickSignOut = () => signOut()
-
   return (
     <header>
       <Box sx={{ flexGrow: 1 }}>
@@ -34,7 +36,7 @@ function Header() {
             <Typography component='div' sx={{ flexGrow: 1 }} variant='h6'>
               <Link href='/'>Design System Hub</Link>
             </Typography>
-            {data?.user ? (
+            {user ? (
               <>
                 <div className='laptop:hidden'>
                   <IconButton

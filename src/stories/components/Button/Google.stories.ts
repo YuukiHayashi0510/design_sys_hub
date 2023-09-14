@@ -9,6 +9,7 @@ const meta: Meta<typeof StyledGoogleButton> = {
   tags: ['autodocs'],
   argTypes: {
     theme: {
+      description: 'ライトテーマ、ダークテーマ。デフォルトはブラウザ設定',
       control: 'select',
       options: ['light', 'dark'],
     },
