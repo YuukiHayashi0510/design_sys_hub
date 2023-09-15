@@ -8,10 +8,25 @@ const meta: Meta<typeof PostCard> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    className: { control: 'text' },
+    className: {
+      control: 'text',
+      table: {
+        category: 'CSS',
+      },
+    },
     showDescription: {
       control: 'boolean',
       defaultValue: true,
+      table: {
+        category: 'PostCard',
+      },
+    },
+    post: {
+      description: 'Postの情報',
+      control: 'object',
+      table: {
+        category: 'PostCard',
+      },
     },
   },
 }

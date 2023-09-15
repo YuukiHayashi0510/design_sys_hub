@@ -27,6 +27,10 @@ export default prisma
 // cleanUp不要なテーブル名
 const excludeModelNames = ['']
 
+/**
+ * データベースの全テーブルを削除する
+ * @returns {Promise<number>} - 削除したテーブルの数
+ */
 export async function cleanUpDatabase(): Promise<number> {
   const modelNames = Prisma.dmmf.datamodel.models
     .map((model) => model.name)
@@ -44,7 +48,12 @@ export async function cleanUpDatabase(): Promise<number> {
   return modelNames.length
 }
 
-/* Error Handling */
+/**
+ * Prisma Error Handling
+ * @param err
+ * @returns {ApiError} - { statusCode: number, message: string }
+ * @see https://www.prisma.io/docs/concepts/components/prisma-client/handling-errors
+ */
 export function prismaErrorHandler(err: unknown): ApiError {
   if (err instanceof Prisma.PrismaClientKnownRequestError)
     return {

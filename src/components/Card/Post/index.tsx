@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Post } from '@prisma/client'
 import Link from 'next/link'
-import React, { ComponentPropsWithoutRef } from 'react'
+import React from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from '~/components/Button/Main'
 
@@ -15,8 +15,14 @@ export type PostCardProps = {
   post: Post
   className?: string
   showDescription?: boolean
-} & ComponentPropsWithoutRef<typeof Card>
+}
 
+/**
+ * ポストのカード
+ * @param post ポスト
+ * @param className カードのクラス
+ * @param showDescription 説明を表示するかどうか
+ */
 function PostCard({ post, className, showDescription = true }: PostCardProps) {
   const allClasses = twMerge(
     'relative w-[400px]',

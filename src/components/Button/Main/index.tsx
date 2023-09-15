@@ -14,6 +14,16 @@ export type ButtonProps = {
   onClick?: MuiProps['onClick']
 }
 
+/**
+ * ボタン
+ * @param className ボタンのクラス
+ * @param size ボタンのサイズ
+ * @param variant ボタンの種類
+ * @param type ボタンのタイプ
+ * @param disabled ボタンの無効化
+ * @param onClick クリック時のイベント
+ * @param children 子要素
+ */
 const Button: React.FC<ButtonProps> = ({
   className,
   size,

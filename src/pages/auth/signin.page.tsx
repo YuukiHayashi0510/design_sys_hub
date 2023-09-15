@@ -3,6 +3,13 @@ import { getProviders, signIn } from 'next-auth/react'
 import GithubButton from '~/components/Button/Github'
 import StyledGoogleButton from '~/components/Button/Google'
 
+export const getServerSideProps = async () => {
+  const providers = await getProviders()
+  return {
+    props: { providers },
+  }
+}
+
 const SignIn = ({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -26,10 +33,3 @@ const SignIn = ({
 }
 
 export default SignIn
-
-export const getServerSideProps = async () => {
-  const providers = await getProviders()
-  return {
-    props: { providers },
-  }
-}

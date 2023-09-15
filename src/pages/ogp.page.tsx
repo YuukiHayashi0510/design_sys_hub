@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import validator from 'validator'
 import Button from '~/components/Button/Main'
-import Image from '~/components/Image'
+import { Image } from '~/components/Image'
 import { CustomNextPage } from '~/types/next-page'
 import { Pre } from '../types/api/ogp'
 
@@ -52,7 +52,7 @@ const OgpSample: CustomNextPage = () => {
       </form>
       {json && (
         <>
-          <Image alt={json.description} src={json.image} />
+          <Image alt={json.description ?? ''} src={json.image ?? ''} />
           <div className='whitespace-pre-wrap break-words rounded border p-2'>
             {result}
           </div>

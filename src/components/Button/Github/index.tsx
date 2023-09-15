@@ -7,6 +7,11 @@ const darkModeClass = 'dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30'
 
 export type GithubButtonProps = ComponentPropsWithoutRef<'button'>
 
+/**
+ * Githubのボタン
+ * @param className ボタンのクラス
+ * @param onClick クリック時のイベント
+ */
 function GithubButton({ className, onClick }: GithubButtonProps) {
   const allClasses = twMerge(
     'inline-flex w-60 cursor-pointer items-center rounded-sm bg-[#24292F] px-4 py-2.5 text-center text-sm font-medium text-white',

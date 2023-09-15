@@ -10,24 +10,42 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     className: {
       control: 'text',
+      table: {
+        category: 'Styled',
+      },
     },
     size: {
       control: 'radio',
       options: ['small', 'medium', 'large'],
+      table: {
+        category: 'Styled',
+      },
     },
     variant: {
       control: 'select',
       options: ['text', 'outlined', 'contained'],
+      table: {
+        category: 'Styled',
+      },
     },
     type: {
       control: 'select',
       options: ['button', 'submit', 'reset'],
+      table: {
+        category: 'Button',
+      },
     },
     disabled: {
       control: 'boolean',
+      table: {
+        category: 'Button',
+      },
     },
     onClick: {
       action: 'clicked',
+      table: {
+        category: 'Button',
+      },
     },
   },
 }

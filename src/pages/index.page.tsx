@@ -6,9 +6,32 @@ import Pagination from '~/components/Pagination'
 import { usePage } from '~/lib/hooks/usePage'
 import prisma from '~/lib/prisma'
 
+export const getServerSideProps: GetServerSideProps<{
+  posts: Post[]
+  totalPages: number
+}> = async ({ query: { page = 1 } }) => {
+  const currentPage = parseInt(page as string, 10)
+  const PER_PAGE = 12
+
+  const totalPosts = await prisma.post.count()
+  const totalPages = Math.ceil(totalPosts / PER_PAGE)
+
+  const res = await prisma.post.findMany({
+    skip: (currentPage - 1) * PER_PAGE,
+    take: PER_PAGE,
+    orderBy: { createdAt: 'desc' },
+  })
+  // JSON.parse(JSON.stringify(res)) で Datetime処理できない問題に対処
+  const posts = JSON.parse(JSON.stringify(res)) as Post[]
+
+  return {
+    props: { posts, totalPages },
+  }
+}
+
 export default function Home({
   posts,
-  totalPage,
+  totalPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const page = usePage()
   const router = useRouter()
@@ -23,7 +46,7 @@ export default function Home({
       <Pagination
         onChange={onChangePagination}
         page={page ?? 1}
-        totalPage={totalPage}
+        totalPage={totalPages}
       />
       <div className='gap-4 tablet:grid tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4'>
         {posts.map((post) => (
@@ -33,30 +56,8 @@ export default function Home({
       <Pagination
         onChange={onChangePagination}
         page={page ?? 1}
-        totalPage={totalPage}
+        totalPage={totalPages}
       />
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps<{
-  posts: Post[]
-  totalPage: number
-}> = async (context) => {
-  const PER_PAGE = 12
-  const page = context.query.page ?? 1
-
-  const res = await prisma.post.findMany({
-    skip: (Number(page) - 1) * PER_PAGE ?? 0,
-    take: PER_PAGE,
-    orderBy: { createdAt: 'desc' },
-  })
-  const posts = JSON.parse(JSON.stringify(res)) as Post[]
-  const count = await prisma.post.count()
-
-  const totalPage = Math.ceil(count / PER_PAGE)
-
-  return {
-    props: { posts, totalPage },
-  }
 }

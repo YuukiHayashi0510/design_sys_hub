@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Image from '~/components/Image'
+import { Image } from '~/components/Image'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Image> = {
@@ -31,5 +31,6 @@ export const Defaults: Story = {
   args: {
     className: '',
     src: faker.image.url(),
+    alt: '画像の内容を表すalt',
   },
 }

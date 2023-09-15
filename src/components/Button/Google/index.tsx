@@ -6,6 +6,12 @@ export type StyledGoogleButtonProps = {
   theme?: 'light' | 'dark'
 } & ComponentPropsWithoutRef<typeof GoogleButton>
 
+/**
+ * Googleのボタン
+ * @param theme ボタンのテーマ
+ * @param className ボタンのクラス
+ * @param onClick クリック時のイベント
+ */
 function StyledGoogleButton({
   theme,
   className,

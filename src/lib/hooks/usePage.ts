@@ -5,5 +5,5 @@ export const usePage = () => {
   const page = router.query.page
   if (typeof page !== 'string') return
 
-  return Number(page)
+  return parseInt(page, 10)
 }

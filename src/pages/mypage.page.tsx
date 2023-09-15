@@ -7,6 +7,26 @@ import { MyPageUser } from '~/types/api/post'
 import { CustomNextPage } from '~/types/next-page'
 import { authOptions } from './api/auth/[...nextauth].api'
 
+export const getServerSideProps: GetServerSideProps<{
+  user: MyPageUser
+}> = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions)
+
+  const res = await prisma.user.findUnique({
+    where: { id: session?.user?.id },
+    include: {
+      posts: { orderBy: { createdAt: 'desc' } },
+      stars: { where: { userId: session?.user?.id }, include: { post: true } },
+    },
+  })
+
+  const user = JSON.parse(JSON.stringify(res))
+
+  return {
+    props: { user },
+  }
+}
+
 const MyPage: CustomNextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ user }) => {
@@ -35,23 +55,3 @@ const MyPage: CustomNextPage<
 
 MyPage.requireAuth = true
 export default MyPage
-
-export const getServerSideProps: GetServerSideProps<{
-  user: MyPageUser
-}> = async (context) => {
-  const session = await getServerSession(context.req, context.res, authOptions)
-
-  const res = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: {
-      posts: { orderBy: { createdAt: 'desc' } },
-      stars: { where: { userId: session?.user?.id }, include: { post: true } },
-    },
-  })
-
-  const user = JSON.parse(JSON.stringify(res))
-
-  return {
-    props: { user },
-  }
-}

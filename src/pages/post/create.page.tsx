@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import isURL from 'validator/lib/isURL'
 import Button from '~/components/Button/Main'
-import Image from '~/components/Image'
+import { Image } from '~/components/Image'
 import { Pre } from '~/types/api/ogp'
 import { CustomNextPage } from '~/types/next-page'
 
@@ -101,7 +101,7 @@ const Create: CustomNextPage = () => {
             >
               取得
             </Button>
-            {ogp && <Image alt={ogp.description} src={ogp.image} />}
+            {ogp && <Image alt={ogp.description ?? ''} src={ogp.image ?? ''} />}
             {isLoading && <CircularProgress />}
           </>
         )}

@@ -10,6 +10,9 @@ const meta: Meta<typeof Pagination> = {
   argTypes: {
     className: {
       control: 'text',
+      table: {
+        category: 'Style',
+      },
     },
     page: {
       description: '現在のページ',
@@ -17,6 +20,9 @@ const meta: Meta<typeof Pagination> = {
         type: 'number',
         min: 1,
         step: 1,
+      },
+      table: {
+        category: 'State',
       },
     },
     totalPage: {
@@ -26,6 +32,9 @@ const meta: Meta<typeof Pagination> = {
         min: 1,
         step: 1,
       },
+      table: {
+        category: 'State',
+      },
     },
     color: {
       description: 'MUI PaginationのColor',
@@ -33,14 +42,23 @@ const meta: Meta<typeof Pagination> = {
         type: 'select',
         options: ['primary', 'secondary', 'standard'],
       },
+      table: {
+        category: 'Style',
+      },
     },
     showFirstButton: {
       description: '最初まで戻るボタン',
       control: 'boolean',
+      table: {
+        category: 'Button',
+      },
     },
     showLastButton: {
       description: '最後まで移動するボタン',
       control: 'boolean',
+      table: {
+        category: 'Button',
+      },
     },
     onChange: {
       description: 'MUI Paginationのカスタム, 移動後のページを返す',

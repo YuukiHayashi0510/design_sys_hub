@@ -14,6 +14,16 @@ export type PaginationProps = {
   onChange: (value: number) => void
 }
 
+/**
+ * ページネーション
+ * @param page 現在のページ
+ * @param totalPage ページの合計
+ * @param className クラス
+ * @param color MUI PaginationのColor
+ * @param showFirstButton 最初まで戻るボタン
+ * @param showLastButton 最後まで移動するボタン
+ * @param onChange MUI Paginationのカスタム, 移動後のページを返す
+ */
 const Pagination: React.FC<PaginationProps> = ({
   page,
   totalPage,

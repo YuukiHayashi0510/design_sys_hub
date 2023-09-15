@@ -1,17 +1,25 @@
+import Image from 'next/image'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export type ImageProps = {
   className?: string
-  src?: string
-  alt?: string
+  src: string
+  alt: string
 }
 
-const Image: React.FC<ImageProps> = ({ className, alt, src }) => {
+const CustomImage: React.FC<ImageProps> = ({ className, alt, src }) => {
   const allClasses = twMerge('p-10', className)
 
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img alt={alt} className={allClasses} src={src} />
+  return (
+    <Image
+      alt={alt}
+      className={allClasses}
+      height={500}
+      src={src}
+      width={500}
+    />
+  )
 }
 
-export default Image
+export { CustomImage as Image }
