@@ -4,12 +4,18 @@ import { twMerge } from 'tailwind-merge'
 
 export type AlertProps = {
   className?: string
-  type: 'error' | 'info' | 'success' | 'warning'
+  type?: 'error' | 'info' | 'success' | 'warning'
 }
 
+/**
+ * アラート
+ * @param className クラス名
+ * @param type アラートの種類
+ * @param children 子要素
+ */
 const Alert: React.FC<React.PropsWithChildren<AlertProps>> = ({
   className,
-  type,
+  type = 'info',
   children,
 }) => {
   const allClasses = twMerge('mt-20', className)

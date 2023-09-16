@@ -42,6 +42,7 @@ const Detail: CustomNextPage<
 
     if (!res.ok) alert.error(await res.text())
     await router.push('/')
+    alert.info('削除しました')
   }
 
   const onSubmit: SubmitHandler<PostProps> = async (data) => {
@@ -76,7 +77,11 @@ const Detail: CustomNextPage<
         className='col-span-4 col-start-2 flex flex-col gap-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Image alt={post.description} src={post.image} />
+        <Image
+          alt={post.description}
+          className='aspect-image w-full rounded p-0'
+          src={post.image}
+        />
 
         <TextField
           label='name'
