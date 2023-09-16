@@ -6,6 +6,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { useAlert } from 'react-alert'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import isURL from 'validator/lib/isURL'
 import Button from '~/components/Button/Main'
@@ -24,6 +25,8 @@ const Create: CustomNextPage = () => {
   const [isOgpMode, setIsOgpMode] = useState(true)
   const [ogp, setOgp] = useState<Pre>()
   const [isLoading, setIsLoading] = useState(false)
+
+  const alert = useAlert()
 
   const {
     register,
@@ -49,7 +52,7 @@ const Create: CustomNextPage = () => {
         setValue('image', json.image ?? '')
       })
       .catch((e) => {
-        alert('OGPを取得できませんでした')
+        alert.error('OGPを取得できませんでした')
         // eslint-disable-next-line no-console
         console.error(e)
       })
@@ -67,7 +70,9 @@ const Create: CustomNextPage = () => {
     })
 
     if (res.ok) await router.push('/')
-    else alert(res.statusText)
+    else alert.error(res.statusText)
+
+    alert.success('投稿しました')
   }
 
   return (
@@ -101,7 +106,13 @@ const Create: CustomNextPage = () => {
             >
               取得
             </Button>
-            {ogp && <Image alt={ogp.description ?? ''} src={ogp.image ?? ''} />}
+            {ogp && (
+              <Image
+                alt={ogp.description ?? ''}
+                className='w-full'
+                src={ogp.image ?? ''}
+              />
+            )}
             {isLoading && <CircularProgress />}
           </>
         )}

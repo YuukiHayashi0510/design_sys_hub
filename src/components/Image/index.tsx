@@ -17,6 +17,7 @@ const CustomImage: React.FC<ImageProps> = ({ className, alt, src }) => {
       className={allClasses}
       height={500}
       src={src}
+      unoptimized
       width={500}
     />
   )
