@@ -1,17 +1,14 @@
-import { Typography } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from '~/components/Button/Main'
+import { Post } from '~/types/pages/model'
 import Card from '..'
-import type { PostWithStarCount } from '~/types/pages'
 
-export type PostCardProps = {
-  post: PostWithStarCount
+export type MyPostCardProps = {
+  post: Post
   className?: string
   showDescription?: boolean
-  onClickStar: (postId: string) => void
-  onClickUnstar: (postId: string, starId: string) => void
 }
 
 /**
@@ -19,16 +16,12 @@ export type PostCardProps = {
  * @param post ポスト
  * @param className カードのクラス
  * @param showDescription 説明を表示するかどうか
- * @param onClickStar スターをつける
- * @param onClickUnstar スターを外す
  */
-function PostCard({
+function MyPostCard({
   post,
   className,
   showDescription = true,
-  onClickStar,
-  onClickUnstar,
-}: PostCardProps) {
+}: MyPostCardProps) {
   const allClasses = twMerge(showDescription && 'h-[400px]', className)
 
   return (
@@ -48,18 +41,8 @@ function PostCard({
           Learn More
         </a>
       </Button>
-      {post.stars.length > 0 ? (
-        <Button onClick={() => onClickUnstar(post.id, post.stars[0].id)}>
-          Unstar
-        </Button>
-      ) : (
-        <Button onClick={() => onClickStar(post.id)}>Star</Button>
-      )}
-      <Typography color='text.secondary' variant='body2'>
-        {post._count.stars}
-      </Typography>
     </Card>
   )
 }
 
-export default PostCard
+export default MyPostCard

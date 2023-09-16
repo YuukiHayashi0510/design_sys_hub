@@ -1,3 +1,4 @@
+import { Star } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
@@ -7,7 +8,8 @@ import { authOptions } from '~/pages/api/auth/[...nextauth].api'
 import { createStar } from './service'
 
 type Data = {
-  starCount: number
+  star: Star
+  count: number
 }
 
 // Create(POST), star押した後にstar数を返す
@@ -39,7 +41,7 @@ export default async function handler(
     const star = await createStar({ postId, userId: session.user.id })
     res
       .status(HttpStatusCode.Created)
-      .json({ starCount: star.post._count.stars })
+      .json({ star, count: star.post._count.stars })
   } catch (err) {
     res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
