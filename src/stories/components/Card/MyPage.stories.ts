@@ -1,8 +1,8 @@
-import PostCard from '~/components/Card/Post'
+import MyPostCard from '~/components/Card/MyPage'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof PostCard> = {
-  component: PostCard,
+const meta: Meta<typeof MyPostCard> = {
+  component: MyPostCard,
   parameters: {
     layout: 'centered',
   },
@@ -33,7 +33,7 @@ const meta: Meta<typeof PostCard> = {
 
 export default meta
 
-type Story = StoryObj<typeof PostCard>
+type Story = StoryObj<typeof MyPostCard>
 
 export const Defaults: Story = {
   args: {
@@ -49,8 +49,6 @@ export const Defaults: Story = {
       userId: '',
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
-      stars: [],
-      _count: { stars: 0 },
     },
   },
 }
@@ -69,8 +67,6 @@ export const DescriptionOff: Story = {
       userId: '',
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
-      stars: [],
-      _count: { stars: 0 },
     },
   },
 }

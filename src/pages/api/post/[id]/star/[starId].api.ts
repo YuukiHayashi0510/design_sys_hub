@@ -7,7 +7,8 @@ import { authOptions } from '~/pages/api/auth/[...nextauth].api'
 import { deleteStar } from './service'
 
 type Data = {
-  starCount: number
+  id: string
+  count: number
 }
 
 // DELETE, 削除時にstar数を返す
@@ -41,7 +42,7 @@ export default async function handler(
     // * 削除前のカウントであるため
     res
       .status(HttpStatusCode.Ok)
-      .json({ starCount: star.post._count.stars - 1 })
+      .json({ id: star.id, count: star.post._count.stars - 1 })
   } catch (err) {
     res.status(HttpStatusCode.BadRequest).json(prismaErrorHandler(err))
   }
