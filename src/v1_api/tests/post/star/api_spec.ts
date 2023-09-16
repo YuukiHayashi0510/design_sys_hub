@@ -57,7 +57,7 @@ describe('Star API Test', () => {
             const json = await res.json()
             if (isApiError(json)) return
 
-            expect(json.starCount).toBe(1)
+            expect(json.count).toBe(1)
           },
         })
       })
@@ -84,7 +84,7 @@ describe('Star API Test', () => {
           const json = await res.json()
           if (isApiError(json)) return
 
-          expect(json.starCount).toBe(0)
+          expect(json.count).toBe(0)
         },
       })
     })
