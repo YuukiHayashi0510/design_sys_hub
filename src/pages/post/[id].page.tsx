@@ -2,6 +2,7 @@ import { TextField } from '@mui/material'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { useAlert } from 'react-alert'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Button from '~/components/Button/Main'
 import { Image } from '~/components/Image'
@@ -30,6 +31,7 @@ const Detail: CustomNextPage<
 
   const { data: session } = useSession()
   const router = useRouter()
+  const alert = useAlert()
 
   const url = `/api/post/${post.id}`
 
@@ -38,8 +40,9 @@ const Detail: CustomNextPage<
       method: 'DELETE',
     })
 
-    if (!res.ok) alert(await res.text())
+    if (!res.ok) alert.error(await res.text())
     await router.push('/')
+    alert.info('削除しました')
   }
 
   const onSubmit: SubmitHandler<PostProps> = async (data) => {
@@ -58,13 +61,14 @@ const Detail: CustomNextPage<
       body: JSON.stringify(body),
     })
 
-    if (!res.ok) alert(await res.text())
+    if (!res.ok) alert.error(await res.text())
     const json = await res.json()
 
     setValue('name', json.name)
     setValue('description', json.description)
     setValue('image', json.image)
     setValue('url', json.url)
+    alert.success('更新しました')
   }
 
   return (
@@ -73,7 +77,11 @@ const Detail: CustomNextPage<
         className='col-span-4 col-start-2 flex flex-col gap-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Image alt={post.description} src={post.image} />
+        <Image
+          alt={post.description}
+          className='aspect-image w-full rounded p-0'
+          src={post.image}
+        />
 
         <TextField
           label='name'

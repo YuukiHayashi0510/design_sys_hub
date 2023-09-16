@@ -2,6 +2,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { getServerSession } from 'next-auth'
 import { useEffect, useState } from 'react'
+import { useAlert } from 'react-alert'
 import PostCard from '~/components/Card/Post'
 import Pagination from '~/components/Pagination'
 import { usePage } from '~/lib/hooks/usePage'
@@ -63,6 +64,7 @@ export default function Home({
   const [allPosts, setAllPosts] = useState<PostWithStarCount[]>(posts)
   const page = usePage()
   const router = useRouter()
+  const alert = useAlert()
 
   useEffect(() => {
     setAllPosts(posts)
@@ -72,8 +74,10 @@ export default function Home({
     const res = await fetch(`/api/post/${postId}/star`, {
       method: 'POST',
     })
-    // TODO: Error Handling
-    if (!res.ok) return
+    if (!res.ok) {
+      alert.error('エラーが発生しました')
+      return
+    }
 
     const json = await res.json()
     setAllPosts((prev) =>
@@ -96,8 +100,10 @@ export default function Home({
     const res = await fetch(`/api/post/${postId}/star/${starId}`, {
       method: 'DELETE',
     })
-    // TODO: Error Handling
-    if (!res.ok) return
+    if (!res.ok) {
+      alert.error('エラーが発生しました')
+      return
+    }
 
     const json = await res.json()
     setAllPosts((prev) =>

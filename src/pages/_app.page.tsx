@@ -5,6 +5,7 @@ import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import Layout from '~/components/Layout'
 import AuthGuard from '~/lib/guard/Auth'
+import AlertProvider from '~/lib/providers/Alert'
 import type { AppProps } from 'next/app'
 
 export type CustomAppProps = AppProps<{ session: Session }> & {
@@ -17,19 +18,21 @@ export default function App({
 }: CustomAppProps) {
   return (
     <SessionProvider session={session}>
-      <Head>
-        <title>Design System Hub</title>
-        <meta content='initial-scale=1, width=device-width' name='viewport' />
-      </Head>
-      <Layout>
-        {Component.requireAuth ? (
-          <AuthGuard>
+      <AlertProvider>
+        <Head>
+          <title>Design System Hub</title>
+          <meta content='initial-scale=1, width=device-width' name='viewport' />
+        </Head>
+        <Layout>
+          {Component.requireAuth ? (
+            <AuthGuard>
+              <Component {...pageProps} />
+            </AuthGuard>
+          ) : (
             <Component {...pageProps} />
-          </AuthGuard>
-        ) : (
-          <Component {...pageProps} />
-        )}
-      </Layout>
+          )}
+        </Layout>
+      </AlertProvider>
     </SessionProvider>
   )
 }
