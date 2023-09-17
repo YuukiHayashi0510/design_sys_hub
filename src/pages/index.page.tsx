@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import PostCard from '~/components/Card/Post'
 import Pagination from '~/components/Pagination'
+import SearchForm from '~/components/SearchForm'
 import { usePage } from '~/lib/hooks/usePage'
 import prisma from '~/lib/prisma'
 import { authOptions } from './api/auth/[...nextauth].api'
@@ -13,20 +14,18 @@ import type { PostWithStarCount } from '~/types/pages'
 export const getServerSideProps: GetServerSideProps<{
   posts: PostWithStarCount[]
   totalPages: number
-}> = async ({ req, res, query: { page = 1 } }) => {
-  // ページネーション
+}> = async ({ req, res, query: { page = 1, keyword = '' } }) => {
   const currentPage = parseInt(page as string, 10)
   const PER_PAGE = 12
 
-  const totalPosts = await prisma.post.count()
-  const totalPages = Math.ceil(totalPosts / PER_PAGE)
-
-  // starを持っているかどうか
   const session = await getServerSession(req, res, authOptions)
-
   const prismaPosts = await prisma.post.findMany({
     skip: (currentPage - 1) * PER_PAGE,
     take: PER_PAGE,
+    where: {
+      name: { contains: keyword as string },
+      description: { contains: keyword as string },
+    },
     orderBy: { createdAt: 'desc' },
     include: {
       _count: {
@@ -52,6 +51,9 @@ export const getServerSideProps: GetServerSideProps<{
     }
   })
 
+  const totalPosts = keyword ? prismaPosts.length : await prisma.post.count()
+  const totalPages = Math.ceil(totalPosts / PER_PAGE)
+
   return {
     props: { posts, totalPages },
   }
@@ -62,6 +64,7 @@ export default function Home({
   totalPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [allPosts, setAllPosts] = useState<PostWithStarCount[]>(posts)
+  const [keyword, setKeyword] = useState<string>('')
   const page = usePage()
   const router = useRouter()
   const alert = useAlert()
@@ -122,13 +125,23 @@ export default function Home({
     )
   }
 
-  const onChangePagination = (value: number) => {
-    router.push({ query: { page: value } })
+  const onChangePagination = async (value: number) => {
+    await router.push({ query: { page: value } })
   }
+
+  const onChangeKeyword = (value: string) => setKeyword(value)
+
+  const onSearchSubmit = async () => await router.push({ query: { keyword } })
 
   return (
     <div className='flex flex-col items-center justify-between gap-6'>
       <h1>一覧</h1>
+      <SearchForm
+        className='w-1/3'
+        onChange={onChangeKeyword}
+        onSubmit={onSearchSubmit}
+        value={keyword}
+      />
       <Pagination
         onChange={onChangePagination}
         page={page ?? 1}
