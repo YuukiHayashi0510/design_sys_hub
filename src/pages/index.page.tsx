@@ -23,8 +23,10 @@ export const getServerSideProps: GetServerSideProps<{
     skip: (currentPage - 1) * PER_PAGE,
     take: PER_PAGE,
     where: {
-      name: { contains: keyword as string },
-      description: { contains: keyword as string },
+      OR: [
+        { name: { contains: keyword as string } },
+        { description: { contains: keyword as string } },
+      ],
     },
     orderBy: { createdAt: 'desc' },
     include: {
