@@ -69,6 +69,7 @@ export default function Home({
   const router = useRouter()
   const alert = useAlert()
 
+  // SSRと状態の共存用
   useEffect(() => {
     setAllPosts(posts)
   }, [posts])
@@ -125,13 +126,12 @@ export default function Home({
     )
   }
 
-  const onChangePagination = async (value: number) => {
-    await router.push({ query: { page: value } })
-  }
+  const onChangePagination = (value: number) =>
+    router.push({ query: { page: value } })
 
   const onChangeKeyword = (value: string) => setKeyword(value)
 
-  const onSearchSubmit = async () => await router.push({ query: { keyword } })
+  const onSearchSubmit = () => router.push({ query: { keyword } })
 
   return (
     <div className='flex flex-col items-center justify-between gap-6'>

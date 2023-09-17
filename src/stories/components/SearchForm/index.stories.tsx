@@ -23,6 +23,10 @@ const meta: Meta<typeof SearchForm> = {
       description: 'フォームの値が変更された時のイベント',
       action: 'onChange',
     },
+    onSubmit: {
+      description: 'フォームが送信された時のイベント',
+      action: 'onSubmit',
+    },
   },
 }
 

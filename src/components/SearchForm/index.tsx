@@ -11,6 +11,14 @@ export type SearchFormProps = {
   onSubmit: () => void
 }
 
+/**
+ * 検索フォーム
+ * @param className クラス名
+ * @param label ラベル
+ * @param value 値
+ * @param onChange 値変更時のハンドラ
+ * @param onSubmit 送信時のハンドラ
+ */
 const SearchForm: React.FC<SearchFormProps> = ({
   className,
   label,
